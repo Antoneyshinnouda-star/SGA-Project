@@ -62,7 +62,7 @@ el('h2', 'Lesson resources', main);
     }
   }else{
     el('h1',s.title,main);
-    if(s.kind==='library'){el('p','Choose an album to listen to or upload recordings.',main);
+    if(s.kind==='library'){el('p','Choose an album to listen to',main);
       for(const group of new Set(catalog.albums.map(a=>a.group))){
         el('h2',group,main);const grid=el('div','',main,'grid');
         for(const album of catalog.albums.filter(a=>a.group===group))
