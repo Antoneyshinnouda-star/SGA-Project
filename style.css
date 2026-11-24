@@ -164,4 +164,6 @@ html[data-theme="dark"] :focus-visible {
   outline-offset: 3px;
 }img[src$="academy.jpg"] {
   clip-path: ellipse(48% 46.4% at 50% 50.1%);
+}.card .cover {
+  background: transparent;
 }
