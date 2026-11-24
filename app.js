@@ -12,7 +12,7 @@ function row(title,path,detail){
 }
 function albumCard(grid,path,title,subtitle){
   const a=link('',path,grid,'card'), cover=el('div','',a,'cover');
-  const image=el('img','',cover);image.src='academy.jpg';image.alt='';
+  const image=el('img','',cover);image.src='academy.png';image.alt='';
   el('strong',title,a);el('small',subtitle,a);
 }
 function render(){
