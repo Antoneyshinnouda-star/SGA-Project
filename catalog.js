@@ -312,16 +312,8 @@ const catalog = {
       "title": "Liturgy of the Word",
       "group": "Liturgy"
     },
-    {
-      "id": "liturgy-of-the-faithful",
-      "title": "Liturgy of the Faithful",
-      "group": "Liturgy"
-    },
-    {
-      "id": "distribution-communion",
-      "title": "Distribution / Communion",
-      "group": "Liturgy"
-    },
+    
+  
     {
       "id": "liturgy-of-st-basil",
       "title": "Liturgy of St. Basil",
@@ -337,6 +329,12 @@ const catalog = {
       "title": "Liturgy of St. Cyril",
       "group": "Liturgy"
     },
+    {
+      "id": "distribution-communion",
+      "title": "Distribution / Communion",
+      "group": "Liturgy"
+    },
+    
     {
       "id": "veneration-service",
       "title": "Veneration Service",
