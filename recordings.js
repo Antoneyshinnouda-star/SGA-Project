@@ -34,7 +34,7 @@ async function recordings(course, offering, section, base) {
         player.controls = true;
         player.preload = 'none';
         player.setAttribute('aria-label', title);
-        player.src = storage + '/public/' + SGHA_BUCKET + '/' + folder + '/' + encodeURIComponent(file.name);
+        player.src = storage + '/public/' + SGHA_BUCKET + '/' + folder + '/' + encodeURIComponent(file.name);addHymnPlayer(player);
         seen++;
       }
       if (items.length < 100) break;
@@ -43,4 +43,89 @@ async function recordings(course, offering, section, base) {
   } catch {
     status.textContent = 'Could not load recordings. Check the connection and refresh.';
   }
+}
+function addHymnPlayer(audio) {
+  const name = audio.getAttribute('aria-label')
+    || audio.previousElementSibling?.textContent
+    || 'recording';
+
+  const controls = document.createElement('div');
+  controls.className = 'sgha-player';
+  controls.setAttribute('role', 'group');
+  controls.setAttribute('aria-label', name);
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'sgha-play';
+
+  const seek = document.createElement('input');
+  seek.type = 'range';
+  seek.min = '0';
+  seek.max = '0';
+  seek.step = '1';
+  seek.value = '0';
+  seek.disabled = true;
+  seek.setAttribute('aria-label', `Seek in ${name}`);
+
+  const time = document.createElement('span');
+  time.className = 'sgha-time';
+
+  function clock(seconds) {
+    const whole = Math.floor(seconds);
+    return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
+  }
+
+  function updateButton() {
+    const playing = !audio.paused && !audio.ended;
+    button.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${name}`);
+    button.title = playing ? 'Pause' : 'Play';
+    button.innerHTML = playing
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5v17L21 12z"/></svg>';
+  }
+
+  function updateTime() {
+    const known = Number.isFinite(audio.duration) && audio.duration > 0;
+    const elapsed = clock(audio.currentTime || 0);
+    seek.disabled = !known;
+    seek.max = known ? String(audio.duration) : '0';
+    seek.value = String(audio.currentTime || 0);
+    seek.setAttribute('aria-valuetext', elapsed);
+    time.textContent = `${elapsed} / ${known ? clock(audio.duration) : '–:––'}`;
+  }
+
+  function showNativePlayer() {
+    controls.remove();
+    audio.controls = true;
+  }
+
+  button.addEventListener('click', async () => {
+    if (!audio.paused) {
+      audio.pause();
+      return;
+    }
+    try {
+      await audio.play();
+    } catch {
+      showNativePlayer();
+    }
+  });
+
+  seek.addEventListener('input', () => {
+    if (!seek.disabled) audio.currentTime = Number(seek.value);
+  });
+
+  for (const event of ['play', 'pause', 'ended']) {
+    audio.addEventListener(event, updateButton);
+  }
+  for (const event of ['loadedmetadata', 'durationchange', 'timeupdate']) {
+    audio.addEventListener(event, updateTime);
+  }
+  audio.addEventListener('error', showNativePlayer, { once: true });
+
+  controls.append(button, seek, time);
+  audio.after(controls);
+  audio.controls = false;
+  updateButton();
+  updateTime();
 }
