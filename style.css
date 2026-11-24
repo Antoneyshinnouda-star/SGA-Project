@@ -168,7 +168,9 @@ html[data-theme="dark"] :focus-visible {
   background: transparent;
 }/* Center page titles, section headings, and introductory text. */
 main h1,
-main h2,
+main h2{
+  font-size: x-large;
+}
 main > p {
   text-align: center;
 }
