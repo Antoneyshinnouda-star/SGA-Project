@@ -187,4 +187,55 @@ main .grid > .card {
   max-width: 200px;
   min-width: 0;
   text-align: center;
+}.recording-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 18px;
+}
+
+.recording-actions button,
+.recording-queue > button {
+  min-height: 44px;
+  padding: 6px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.recording-actions button[aria-pressed="true"] {
+  background: #762d3d;
+  color: white;
+}
+
+.recording-actions button:disabled,
+.recording-queue button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.recording-queue {
+  max-width: 720px;
+  margin: 12px auto 90px;
+  padding: 16px;
+  border: 1px solid currentColor;
+  border-radius: 14px;
+}
+
+.recording-queue h2 {
+  margin-top: 0;
+}
+
+.recording-queue audio {
+  width: 100%;
+}
+
+.recording-actions[hidden],
+.recording-queue[hidden],
+.recording-queue audio[hidden] {
+  display: none;
 }

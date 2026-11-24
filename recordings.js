@@ -147,8 +147,183 @@ function addHymnPlayer(audio) {
   audio.addEventListener('error', showNativePlayer, { once: true });
 
   controls.append(button, seek, time);
-  audio.after(controls);
+  audio.after(controls);addRecordingActions(audio, controls);
   audio.controls = false;
   updateButton();
   updateTime();
+}function recordingButton(label, action) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = label;
+  button.addEventListener('click', action);
+  return button;
+}
+
+function addTransportButtons(audio, bar) {
+  function skip(seconds) {
+    if (!Number.isFinite(audio.duration)) return;
+    audio.currentTime = Math.max(
+      0,
+      Math.min(audio.duration, audio.currentTime + seconds)
+    );
+  }
+
+  const back = recordingButton('−10s', () => skip(-10));
+  const forward = recordingButton('+10s', () => skip(10));
+  back.setAttribute('aria-label', 'Skip backward 10 seconds');
+  forward.setAttribute('aria-label', 'Skip forward 10 seconds');
+
+  function updateSkipButtons() {
+    back.disabled = forward.disabled = !Number.isFinite(audio.duration);
+  }
+
+  for (const event of ['loadedmetadata', 'durationchange', 'emptied']) {
+    audio.addEventListener(event, updateSkipButtons);
+  }
+  updateSkipButtons();
+
+  const loop = recordingButton('Loop', () => {
+    audio.loop = !audio.loop;
+    loop.setAttribute('aria-pressed', String(audio.loop));
+  });
+  loop.setAttribute('aria-pressed', String(audio.loop));
+  bar.append(back, forward, loop);
+}
+
+function addRecordingActions(audio, controls) {
+  const bar = document.createElement('div');
+  bar.className = 'recording-actions';
+  addTransportButtons(audio, bar);
+
+  // The recording list places each title immediately before its audio element.
+  const heading = audio.previousElementSibling;
+  const title = heading?.matches('h3') ? heading.textContent : 'Recording';
+
+  const add = recordingButton('Add to queue', async () => {
+    add.disabled = true;
+    try {
+      await getRecordingQueue().add(title, audio.currentSrc || audio.src);
+      add.textContent = 'Added ✓';
+    } catch {
+      add.textContent = 'Couldn’t add · Retry';
+    } finally {
+      add.disabled = false;
+    }
+  });
+
+  bar.append(add);
+  controls.after(bar);
+}
+
+let recordingQueueInstance;
+
+function getRecordingQueue() {
+  if (recordingQueueInstance) return recordingQueueInstance;
+
+  const pending = [];
+  let current = null;
+
+  const panel = document.createElement('section');
+  panel.className = 'recording-queue';
+  panel.setAttribute('aria-label', 'Recording queue');
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Queue';
+  const status = document.createElement('p');
+  status.setAttribute('aria-live', 'polite');
+
+  const player = document.createElement('audio');
+  player.controls = true;
+  player.preload = 'metadata';
+  player.hidden = true;
+
+  const actions = document.createElement('div');
+  actions.className = 'recording-actions';
+  addTransportButtons(player, actions);
+
+  const list = document.createElement('ol');
+  const next = recordingButton('Play queue', playNext);
+  panel.append(heading, status, player, actions, next, list);
+
+  // Keep the queue outside <main>, which the app replaces during navigation.
+  document.body.append(panel);
+
+  function render() {
+    list.replaceChildren();
+    for (const track of pending) {
+      const row = document.createElement('li');
+      row.textContent = track.title;
+      list.append(row);
+    }
+
+    player.hidden = !current;
+    actions.hidden = !current;
+    next.disabled = pending.length === 0;
+    next.textContent = current ? 'Next in queue' : 'Play queue';
+    status.textContent = current
+      ? `Current recording: ${current.title}`
+      : 'Choose Play queue to begin.';
+    panel.hidden = !current && pending.length === 0;
+  }
+
+  function releaseCurrent() {
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    if (current?.ownsURL) URL.revokeObjectURL(current.url);
+    current = null;
+  }
+
+  async function playNext() {
+    releaseCurrent();
+    current = pending.shift() || null;
+    player.loop = false;
+    actions.querySelector('[aria-pressed]').setAttribute('aria-pressed', 'false');
+    render();
+    if (!current) return;
+
+    const track = current;
+    player.src = track.url;
+    try {
+      await player.play();
+    } catch {
+      if (current === track) {
+        status.textContent = `Press play to retry ${track.title}.`;
+      }
+    }
+  }
+
+  player.addEventListener('ended', playNext);
+
+  // Playing a hymn in an album pauses the queue, and vice versa.
+  document.addEventListener('play', event => {
+    if (!(event.target instanceof HTMLAudioElement)) return;
+    for (const other of document.querySelectorAll('audio')) {
+      if (other !== event.target && !other.paused) other.pause();
+    }
+  }, true);
+
+  render();
+
+  recordingQueueInstance = {
+    async add(title, source) {
+      if (!source) throw new Error('Missing recording source');
+      const track = { title, url: source, ownsURL: false };
+
+      // Local uploads need their own URL so leaving the album doesn't
+      // invalidate the queued copy. Hosted recordings can use their URL.
+      if (source.startsWith('blob:')) {
+        const response = await fetch(source);
+        if (!response.ok) throw new Error('Recording unavailable');
+        track.url = URL.createObjectURL(await response.blob());
+        track.ownsURL = true;
+      }
+
+      pending.push(track);
+      render();
+      panel.scrollIntoView({ block: 'nearest' });
+    }
+  };
+
+  return recordingQueueInstance;
 }
