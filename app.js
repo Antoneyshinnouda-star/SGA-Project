@@ -85,3 +85,56 @@ function render(){
   document.title=main.querySelector('h1').textContent+' · SGHA';window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',render);render();
+function setupThemeMenu() {
+  const header = document.querySelector('header');
+  if (!header || header.querySelector('.sgha-theme-menu')) return;
+
+  const storageKey = 'sgha-theme';
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const choices = {
+    system: 'System',
+    light: 'Light',
+    dark: 'Dark'
+  };
+
+  let preference = 'system';
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (Object.hasOwn(choices, saved)) preference = saved;
+  } catch {
+    // The menu still works if browser storage is unavailable.
+  }
+
+  const label = document.createElement('label');
+  label.className = 'sgha-theme-menu';
+  label.append('Theme');
+
+  const select = document.createElement('select');
+  for (const [value, title] of Object.entries(choices)) {
+    select.add(new Option(title, value));
+  }
+  select.value = preference;
+  label.append(select);
+  header.append(label);
+
+  function applyTheme() {
+    const deviceTheme = systemTheme.matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme =
+      preference === 'system' ? deviceTheme : preference;
+  }
+
+  select.addEventListener('change', () => {
+    preference = select.value;
+    applyTheme();
+    try {
+      localStorage.setItem(storageKey, preference);
+    } catch {
+      // Keep the current choice for this visit.
+    }
+  });
+
+  systemTheme.addEventListener('change', applyTheme);
+  applyTheme();
+}
+
+setupThemeMenu();

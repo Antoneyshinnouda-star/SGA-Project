@@ -69,3 +69,97 @@ form .picker{display:inline-flex;width:auto;position:relative;align-items:center
     font-size: 12px;
   }
 }
+/* SGHA theme menu */
+.sgha-theme-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sgha-theme-menu select {
+  min-height: 40px;
+  padding: 5px 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+/* Dark theme */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  background: #181619;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] body {
+  color: #f3edef;
+  background: #181619;
+}
+
+html[data-theme="dark"] header,
+html[data-theme="dark"] .row,
+html[data-theme="dark"] footer,
+html[data-theme="dark"] form {
+  border-color: #484047;
+}
+
+html[data-theme="dark"] nav {
+  background: #2d282d;
+  border-color: #484047;
+}
+
+html[data-theme="dark"] nav a[aria-current="page"] {
+  color: #ffe4df;
+  background: #62313e;
+}
+
+html[data-theme="dark"] p,
+html[data-theme="dark"] small,
+html[data-theme="dark"] .sub,
+html[data-theme="dark"] footer,
+html[data-theme="dark"] .row i {
+  color: #c9bfc5;
+}
+
+html[data-theme="dark"] .back {
+  color: #f2b4c0;
+}
+
+html[data-theme="dark"] select,
+html[data-theme="dark"] input:not([type="range"]):not([type="file"]) {
+  color: #f3edef;
+  background: #2d282d;
+  border-color: #655760;
+}
+
+html[data-theme="dark"] .sgha-player {
+  background: #30272a;
+  border-color: #58444b;
+}
+
+html[data-theme="dark"] .sgha-time {
+  color: #f2dfe2;
+}
+
+html[data-theme="dark"] .sgha-player input[type="range"] {
+  accent-color: #efa5b6;
+}
+
+html[data-theme="dark"] :focus-visible {
+  outline: 3px solid #efbd79;
+  outline-offset: 3px;
+}
