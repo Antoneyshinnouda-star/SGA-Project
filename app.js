@@ -48,13 +48,12 @@ function render(){
     el('h1',resource.title,main);el('small',resource.kind,main);el('p',resource.detail,main);
   }else if(lesson&&base){
     link('‹ '+course.title,base,main,'back');el('h1',lesson.title,main);
-    el('p',course.title+' · '+offering.academicYear,main);el('h2','Lesson resources',main);
+    el('p', course.title, main);
+el('h2', 'Lesson resources', main);
     for(const id of ids){const r=catalog.resources.find(x=>x.id===id);row(r.title,base+'/'+lid+'/'+id,r.kind);}
   }else if(course&&base){
     link('‹ '+s.tab,s.id,main,'back');el('h1',course.title,main);
-    const label=el('label','Academic year',main,'year'),select=el('select','',label);
-    for(const o of offerings)select.add(new Option(o.academicYear,o.id,false,o.id===offering.id));
-    select.onchange=()=>location.hash=[s.id,cid,select.value].join('/');
+    
     if(lid==='lectures'||lid==='sources'){recordings(course,offering,lid,base);}else{
     row('Lectures',base+'/lectures','Class lectures and instruction');
     row('Source Recordings',base+'/sources','Reference audio for practice');

@@ -494,4 +494,29 @@ main .compact-player :focus-visible {
     flex: 1 1 0;
     max-width: 44px;
   }
+}html main .sgha-player.compact-player,
+html[data-theme="dark"] main .sgha-player.compact-player {
+  background: linear-gradient(105deg, #582337, #78324b);
+  border: 1px solid #94546b;
+  color: #fff8ef;
+}
+
+html main .sgha-player.compact-player button {
+  color: #fff8ef;
+}
+
+html main .sgha-player.compact-player button.sgha-play,
+html[data-theme="dark"] main .sgha-player.compact-player button.sgha-play {
+  background: #f3ca83;
+  color: #452033;
+  border-radius: 50%;
+}
+
+html main .sgha-player.compact-player input[type="range"] {
+  accent-color: #f3ca83;
+}
+
+html main .sgha-player.compact-player button[aria-pressed="true"] {
+  background: #f3ca83;
+  color: #452033;
 }
