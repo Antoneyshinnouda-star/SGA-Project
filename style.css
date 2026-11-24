@@ -345,3 +345,34 @@ main .recording-actions button[aria-pressed="true"] {
     background: var(--track-tint);
   }
 }
+
+/* SGHA playback icons */
+.recording-actions button.hymn-icon,
+.recording-queue > button.hymn-icon {
+  display: inline-grid;
+  place-content: center;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: 24px/1 system-ui, sans-serif;
+}
+.hymn-icon:has(small) { padding-bottom: 8px !important; }
+.hymn-icon small {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font: 600 11px/1 system-ui, sans-serif;
+  color: inherit;
+}
+.recording-actions button.hymn-icon[aria-pressed="true"] {
+  background: #762d3d;
+  color: white;
+}
+.hymn-icon:focus-visible { outline: 2px solid currentColor; }

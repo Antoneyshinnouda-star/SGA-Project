@@ -151,15 +151,36 @@ function addHymnPlayer(audio) {
   audio.controls = false;
   updateButton();
   updateTime();
-}function recordingButton(label, action) {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.textContent = label;
-  button.addEventListener('click', action);
-  return button;
 }
 
-function addTransportButtons(audio, bar) {
+function setRecordingIcon(button, label) {
+  const icons = {
+    '−10s': '↶', '+10s': '↷', 'Loop': '⇄',
+    'Add to queue': '☰+', 'Added ✓': '✓',
+    'Couldn’t add · Retry': '↻', 'Play queue': '▶', 'Next in queue': '▶▏'
+  };
+  const names = {
+    '−10s': 'Back 10 seconds', '+10s': 'Forward 10 seconds',
+    'Loop': 'Repeat recording', 'Added ✓': 'Added to queue'
+  };
+  button.classList.add('hymn-icon');
+  button.title = names[label] || label;
+  button.setAttribute('aria-label', button.title);
+  button.textContent = icons[label] || label;
+  if (label.endsWith('10s')) {
+    const seconds = document.createElement('small');
+    seconds.textContent = '10';
+    button.append(seconds);
+  }
+}
+
+function recordingButton(label, action) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  setRecordingIcon(button, label);
+  button.addEventListener('click', action);
+  return button;
+}function addTransportButtons(audio, bar) {
   function skip(seconds) {
     if (!Number.isFinite(audio.duration)) return;
     audio.currentTime = Math.max(
@@ -203,9 +224,9 @@ function addRecordingActions(audio, controls) {
     add.disabled = true;
     try {
       await getRecordingQueue().add(title, audio.currentSrc || audio.src);
-      add.textContent = 'Added ✓';
+      setRecordingIcon(add, 'Added ✓');
     } catch {
-      add.textContent = 'Couldn’t add · Retry';
+      setRecordingIcon(add, 'Couldn’t add · Retry');
     } finally {
       add.disabled = false;
     }
@@ -259,7 +280,7 @@ function getRecordingQueue() {
     player.hidden = !current;
     actions.hidden = !current;
     next.disabled = pending.length === 0;
-    next.textContent = current ? 'Next in queue' : 'Play queue';
+    setRecordingIcon(next, current ? 'Next in queue' : 'Play queue');
     status.textContent = current
       ? `Current recording: ${current.title}`
       : 'Choose Play queue to begin.';
