@@ -376,3 +376,122 @@ main .recording-actions button[aria-pressed="true"] {
   color: white;
 }
 .hymn-icon:focus-visible { outline: 2px solid currentColor; }
+
+
+/* Compact recording bar */
+html main .sgha-player.compact-player {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  max-width: 680px;
+  margin: 5px auto 20px;
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: #f0eded;
+  color: #292629;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] main .sgha-player.compact-player {
+  background: #302e30;
+  color: #fafafa;
+}
+
+main .compact-player button {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: 600 16px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+main .compact-player button svg {
+  display: block;
+  width: 23px;
+  height: 23px;
+}
+
+main .compact-player button.sgha-play {
+  background: radial-gradient(circle, #292629 0 15px, transparent 16px);
+  color: white;
+}
+
+html[data-theme="dark"] main .compact-player button.sgha-play {
+  background: radial-gradient(circle, white 0 15px, transparent 16px);
+  color: #242224;
+}
+
+main .compact-player .sgha-play svg {
+  width: 15px;
+  height: 15px;
+}
+
+main .compact-player button[aria-pressed="true"] {
+  background: #ead3da;
+  color: #742d40;
+}
+
+html[data-theme="dark"] main .compact-player button[aria-pressed="true"] {
+  background: #56333e;
+  color: #ffd5df;
+}
+
+main .compact-player button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+main .compact-player .compact-timeline {
+  display: flex;
+  flex: 1 1 120px;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  padding-inline: 4px;
+  font: 600 12px/1 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+main .compact-timeline input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  accent-color: currentColor;
+  color: inherit;
+}
+
+main .compact-player :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
+
+@media (max-width: 600px) {
+  html main .sgha-player.compact-player {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0;
+    padding: 5px;
+  }
+
+  main .compact-player .compact-timeline {
+    flex: 1 0 100%;
+    order: -1;
+  }
+
+  main .compact-player button {
+    flex: 1 1 0;
+    max-width: 44px;
+  }
+}

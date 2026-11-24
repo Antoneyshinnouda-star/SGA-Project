@@ -233,7 +233,7 @@ function addRecordingActions(audio, controls) {
   });
 
   bar.append(add);
-  controls.after(bar);
+  buildCompactBar(audio, controls, bar);
 }
 
 let recordingQueueInstance;
@@ -347,4 +347,107 @@ function getRecordingQueue() {
   };
 
   return recordingQueueInstance;
+}
+
+
+function buildCompactBar(audio, controls, actions) {
+  const play = controls.querySelector('.sgha-play');
+  const seek = controls.querySelector('input[type="range"]');
+  const [back, forward, loop, queue] = actions.querySelectorAll('button');
+
+  // Keep the original controls usable if the recording template changes.
+  if (!play || !seek || !back || !forward || !loop || !queue) {
+    controls.after(actions);
+    return;
+  }
+
+  function icon(contents) {
+    return `<svg viewBox="0 0 28 28" aria-hidden="true" fill="none"
+      stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+      stroke-linejoin="round">${contents}</svg>`;
+  }
+
+  function skipIcon(forwardDirection) {
+    const arrow = '<path d="M13.5 4.5a10 10 0 1 1-7.2 3.1"/>' +
+      '<path d="m14 1-4 3.5L14 8" fill="currentColor" stroke-width="1"/>';
+    const drawing = forwardDirection
+      ? `<g transform="translate(28 0) scale(-1 1)">${arrow}</g>`
+      : arrow;
+
+    return icon(drawing +
+      '<text x="14" y="19.2" text-anchor="middle" fill="currentColor" ' +
+      'stroke="none" font-family="system-ui,sans-serif" font-size="10" ' +
+      'font-weight="700">10</text>');
+  }
+
+  back.innerHTML = skipIcon(false);
+  forward.innerHTML = skipIcon(true);
+  back.title = 'Back 10 seconds';
+  forward.title = 'Forward 10 seconds';
+
+  loop.innerHTML = icon(
+    '<path d="M4 12a5 5 0 0 1 5-5h13m-4-4 4 4-4 4' +
+    'M24 16a5 5 0 0 1-5 5H6m4-4-4 4 4 4"/>'
+  );
+
+  const rates = [0.5, 0.75, 1, 1.25, 1.5, 2];
+  const speed = document.createElement('button');
+  speed.type = 'button';
+  speed.className = 'compact-speed';
+
+  function updateSpeed() {
+    speed.textContent = `${audio.playbackRate}×`;
+    speed.title = `Playback speed ${audio.playbackRate}×. Tap to change`;
+    speed.setAttribute('aria-label', speed.title);
+  }
+
+  speed.addEventListener('click', () => {
+    const index = rates.indexOf(audio.playbackRate);
+    audio.playbackRate = rates[(index + 1) % rates.length];
+  });
+  audio.addEventListener('ratechange', updateSpeed);
+  updateSpeed();
+
+  const mute = document.createElement('button');
+  mute.type = 'button';
+
+  function updateMute() {
+    const speaker = '<path d="M4 11h5l6-5v16l-6-5H4z" fill="currentColor"/>';
+    const sound = audio.muted
+      ? '<path d="m19 11 6 6m0-6-6 6"/>'
+      : '<path d="M19 10a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>';
+    mute.innerHTML = icon(speaker + sound);
+    mute.title = audio.muted ? 'Unmute' : 'Mute';
+    mute.setAttribute('aria-label', mute.title);
+  }
+
+  mute.addEventListener('click', () => { audio.muted = !audio.muted; });
+  audio.addEventListener('volumechange', updateMute);
+  updateMute();
+
+  const timeline = document.createElement('div');
+  timeline.className = 'compact-timeline';
+  const elapsed = document.createElement('span');
+  const duration = document.createElement('span');
+  seek.setAttribute('aria-label', 'Recording position');
+  timeline.append(elapsed, seek, duration);
+
+  function clock(seconds) {
+    if (!Number.isFinite(seconds)) return '–:––';
+    const whole = Math.floor(seconds);
+    return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
+  }
+
+  function updateClock() {
+    elapsed.textContent = clock(audio.currentTime);
+    duration.textContent = clock(audio.duration);
+  }
+
+  for (const event of ['timeupdate', 'loadedmetadata', 'durationchange', 'emptied']) {
+    audio.addEventListener(event, updateClock);
+  }
+  updateClock();
+
+  controls.classList.add('compact-player');
+  controls.replaceChildren(back, play, forward, speed, loop, timeline, mute, queue);
 }
