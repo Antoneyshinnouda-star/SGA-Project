@@ -1,5 +1,5 @@
 // Copy the two browser-safe values from your Supabase project here.
-const SGHA_PROJECT_URL = 'https://antoneyshinnouda-star.github.io/SGA-Project/';
+const SGHA_PROJECT_URL = 'https://htjmnkdgjqujcqpjslvs.supabase.co';
 const SGHA_PUBLISHABLE_KEY = 'sb_publishable_wtAWg6c6znRF6LmuwF_LGg_wEqWnCjW';
 const SGHA_BUCKET = 'sgha-public-hymns';
 
