@@ -1,6 +1,6 @@
 // Copy the two browser-safe values from your Supabase project here.
-const SGHA_PROJECT_URL = '';
-const SGHA_PUBLISHABLE_KEY = '';
+const SGHA_PROJECT_URL = 'https://antoneyshinnouda-star.github.io/SGA-Project/';
+const SGHA_PUBLISHABLE_KEY = 'sb_publishable_wtAWg6c6znRF6LmuwF_LGg_wEqWnCjW';
 const SGHA_BUCKET = 'sgha-public-hymns';
 
 async function recordings(course, offering, section, base) {
