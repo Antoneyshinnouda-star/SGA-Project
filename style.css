@@ -162,4 +162,6 @@ html[data-theme="dark"] .sgha-player input[type="range"] {
 html[data-theme="dark"] :focus-visible {
   outline: 3px solid #efbd79;
   outline-offset: 3px;
+}img[src$="academy.jpg"] {
+  clip-path: ellipse(48% 46.4% at 50% 50.1%);
 }
