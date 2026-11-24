@@ -166,4 +166,25 @@ html[data-theme="dark"] :focus-visible {
   clip-path: ellipse(48% 46.4% at 50% 50.1%);
 }.card .cover {
   background: transparent;
+}/* Center page titles, section headings, and introductory text. */
+main h1,
+main h2,
+main > p {
+  text-align: center;
+}
+
+/* Center each album row, including a partially filled last row. */
+main .grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Keep album titles and subtitles centered under their covers. */
+main .grid > .card {
+  flex: 0 1 calc((100% - 20px) / 2);
+  max-width: 200px;
+  min-width: 0;
+  text-align: center;
 }
