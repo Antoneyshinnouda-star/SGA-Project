@@ -238,4 +238,110 @@ main .grid > .card {
 .recording-queue[hidden],
 .recording-queue audio[hidden] {
   display: none;
+}/* Recording list */
+main {
+  --track-line: #ded5d7;
+  --track-ink: #53474b;
+  --track-accent: #762d3d;
+  --track-tint: #f5e9ec;
+}
+
+html[data-theme="dark"] main {
+  --track-line: #423b40;
+  --track-ink: #d4c9cd;
+  --track-accent: #f0b1c1;
+  --track-tint: #39292f;
+}
+
+/* Give the title, player, and actions the same centered column. */
+main h3:has(+ audio),
+main .sgha-player,
+main .sgha-player + .recording-actions {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 680px;
+  margin-inline: auto;
+}
+
+main h3:has(+ audio) {
+  margin-block: 20px 4px;
+  text-align: left;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+/* Let the play button and timeline sit directly on the page. */
+html main .sgha-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block: 0;
+  padding: 4px 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] main .sgha-player {
+  background: transparent;
+  border: 0;
+}
+
+main .sgha-player .sgha-play {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+}
+
+main .sgha-player input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--track-accent);
+}
+
+main .sgha-player .sgha-time {
+  color: var(--track-ink);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Group the practice controls; keep the queue action on the right. */
+main .sgha-player + .recording-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-block: 0 16px;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--track-line);
+}
+
+main .recording-actions button {
+  min-height: 44px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--track-ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 550;
+}
+
+main .recording-actions button:last-child {
+  margin-inline-start: auto;
+  color: var(--track-accent);
+}
+
+main .recording-actions button[aria-pressed="true"] {
+  background: var(--track-tint);
+  color: var(--track-accent);
+  font-weight: 700;
+}
+
+@media (hover: hover) {
+  main .recording-actions button:not(:disabled):hover {
+    background: var(--track-tint);
+  }
 }
