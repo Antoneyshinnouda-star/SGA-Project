@@ -67,7 +67,7 @@ async function recordings(course, offering, section, base) {
   }
 }
 
-function addHymnPlayer(audio) {
+function addHymnPlayer(audio, queueActions = null) {
   const name = audio.getAttribute('aria-label')
     || audio.previousElementSibling?.textContent
     || 'recording';
@@ -147,10 +147,16 @@ function addHymnPlayer(audio) {
   audio.addEventListener('error', showNativePlayer, { once: true });
 
   controls.append(button, seek, time);
-  audio.after(controls);addRecordingActions(audio, controls);
+  audio.after(controls);
+  if (queueActions) {
+    buildCompactBar(audio, controls, queueActions);
+  } else {
+    addRecordingActions(audio, controls);
+  }
   audio.controls = false;
   updateButton();
   updateTime();
+  return controls;
 }
 
 function setRecordingIcon(button, label) {
@@ -264,7 +270,12 @@ function getRecordingQueue() {
 
   const list = document.createElement('ol');
   const next = recordingButton('Play queue', playNext);
-  panel.append(heading, status, player, actions, next, list);
+  const loopButton = actions.querySelector('[aria-pressed]');
+  const skipTrack = recordingButton('Next in queue', playNext);
+  actions.append(skipTrack);
+  player.setAttribute('aria-label', 'queue recording');
+  panel.append(heading, status, player, next, list);
+  const queueBar = addHymnPlayer(player, actions);
 
   // Keep the queue outside <main>, which the app replaces during navigation.
   document.body.append(panel);
@@ -278,7 +289,8 @@ function getRecordingQueue() {
     }
 
     player.hidden = !current;
-    actions.hidden = !current;
+    queueBar.hidden = !current;
+    skipTrack.disabled = pending.length === 0;
     next.disabled = pending.length === 0;
     setRecordingIcon(next, current ? 'Next in queue' : 'Play queue');
     status.textContent = current
@@ -299,7 +311,7 @@ function getRecordingQueue() {
     releaseCurrent();
     current = pending.shift() || null;
     player.loop = false;
-    actions.querySelector('[aria-pressed]').setAttribute('aria-pressed', 'false');
+    loopButton.setAttribute('aria-pressed', 'false');
     render();
     if (!current) return;
 

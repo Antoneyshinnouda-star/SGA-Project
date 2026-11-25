@@ -379,7 +379,7 @@ main .recording-actions button[aria-pressed="true"] {
 
 
 /* Compact recording bar */
-html main .sgha-player.compact-player {
+html :where(main, .recording-queue) .sgha-player.compact-player {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -394,12 +394,12 @@ html main .sgha-player.compact-player {
   box-shadow: none;
 }
 
-html[data-theme="dark"] main .sgha-player.compact-player {
+html[data-theme="dark"] :where(main, .recording-queue) .sgha-player.compact-player {
   background: #302e30;
   color: #fafafa;
 }
 
-main .compact-player button {
+:where(main, .recording-queue) .compact-player button {
   display: inline-grid;
   place-items: center;
   flex: 0 0 44px;
@@ -416,43 +416,43 @@ main .compact-player button {
   cursor: pointer;
 }
 
-main .compact-player button svg {
+:where(main, .recording-queue) .compact-player button svg {
   display: block;
   width: 23px;
   height: 23px;
 }
 
-main .compact-player button.sgha-play {
+:where(main, .recording-queue) .compact-player button.sgha-play {
   background: radial-gradient(circle, #292629 0 15px, transparent 16px);
   color: white;
 }
 
-html[data-theme="dark"] main .compact-player button.sgha-play {
+html[data-theme="dark"] :where(main, .recording-queue) .compact-player button.sgha-play {
   background: radial-gradient(circle, white 0 15px, transparent 16px);
   color: #242224;
 }
 
-main .compact-player .sgha-play svg {
+:where(main, .recording-queue) .compact-player .sgha-play svg {
   width: 15px;
   height: 15px;
 }
 
-main .compact-player button[aria-pressed="true"] {
+:where(main, .recording-queue) .compact-player button[aria-pressed="true"] {
   background: #ead3da;
   color: #742d40;
 }
 
-html[data-theme="dark"] main .compact-player button[aria-pressed="true"] {
+html[data-theme="dark"] :where(main, .recording-queue) .compact-player button[aria-pressed="true"] {
   background: #56333e;
   color: #ffd5df;
 }
 
-main .compact-player button:disabled {
+:where(main, .recording-queue) .compact-player button:disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-main .compact-player .compact-timeline {
+:where(main, .recording-queue) .compact-player .compact-timeline {
   display: flex;
   flex: 1 1 120px;
   min-width: 0;
@@ -463,7 +463,7 @@ main .compact-player .compact-timeline {
   font-variant-numeric: tabular-nums;
 }
 
-main .compact-timeline input[type="range"] {
+:where(main, .recording-queue) .compact-timeline input[type="range"] {
   flex: 1;
   min-width: 0;
   width: 100%;
@@ -472,73 +472,73 @@ main .compact-timeline input[type="range"] {
   color: inherit;
 }
 
-main .compact-player :focus-visible {
+:where(main, .recording-queue) .compact-player :focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 1px;
 }
 
 @media (max-width: 600px) {
-  html main .sgha-player.compact-player {
+  html :where(main, .recording-queue) .sgha-player.compact-player {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0;
     padding: 5px;
   }
 
-  main .compact-player .compact-timeline {
+  :where(main, .recording-queue) .compact-player .compact-timeline {
     flex: 1 0 100%;
     order: -1;
   }
 
-  main .compact-player button {
+  :where(main, .recording-queue) .compact-player button {
     flex: 1 1 0;
     max-width: 44px;
   }
-}html main .sgha-player.compact-player,
-html[data-theme="dark"] main .sgha-player.compact-player {
+}html :where(main, .recording-queue) .sgha-player.compact-player,
+html[data-theme="dark"] :where(main, .recording-queue) .sgha-player.compact-player {
   background: linear-gradient(105deg, #582337, #78324b);
   border: 1px solid #94546b;
   color: #fff8ef;
 }
 
-html main .sgha-player.compact-player button {
+html :where(main, .recording-queue) .sgha-player.compact-player button {
   color: #fff8ef;
 }
 
-html main .sgha-player.compact-player button.sgha-play,
-html[data-theme="dark"] main .sgha-player.compact-player button.sgha-play {
+html :where(main, .recording-queue) .sgha-player.compact-player button.sgha-play,
+html[data-theme="dark"] :where(main, .recording-queue) .sgha-player.compact-player button.sgha-play {
   background: #f3ca83;
   color: #452033;
   border-radius: 50%;
 }
 
-html main .sgha-player.compact-player input[type="range"] {
+html :where(main, .recording-queue) .sgha-player.compact-player input[type="range"] {
   accent-color: #f3ca83;
 }
 
-html main .sgha-player.compact-player button[aria-pressed="true"] {
+html :where(main, .recording-queue) .sgha-player.compact-player button[aria-pressed="true"] {
   background: #f3ca83;
   color: #452033;
 }
 
 /* Size the recording player to the space available on the page. */
-main section:has(.compact-player) {
+main section:has(.compact-player), .recording-queue {
   container: recordings / inline-size;
 }
 
 /* Desktop and wide iPad: one horizontal bar. */
-html main .sgha-player.compact-player {
+html :where(main, .recording-queue) .sgha-player.compact-player {
   display: grid;
   grid-template-columns: repeat(5, 44px) minmax(0, 1fr) repeat(2, 44px);
   align-items: center;
   gap: 3px;
 }
 
-main .compact-player > button {
+:where(main, .recording-queue) .compact-player > button {
   justify-self: center;
 }
 
-main .compact-player > .compact-timeline {
+:where(main, .recording-queue) .compact-player > .compact-timeline {
   order: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -547,13 +547,13 @@ main .compact-player > .compact-timeline {
 
 /* Phones and narrow iPad windows: timeline above all seven buttons. */
 @container recordings (max-width: 34rem) {
-  html main .sgha-player.compact-player {
+  html :where(main, .recording-queue) .sgha-player.compact-player {
     grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 4px 0;
     padding: 6px;
   }
 
-  main .compact-player > .compact-timeline {
+  :where(main, .recording-queue) .compact-player > .compact-timeline {
     grid-column: 1 / -1;
     grid-row: 1;
   }
@@ -562,20 +562,30 @@ main .compact-player > .compact-timeline {
 /* Smallest phones: keep back, play, and forward together.
    Speed, loop, volume, and queue get their own row. */
 @container recordings (max-width: 21rem) {
-  html main .sgha-player.compact-player {
+  html :where(main, .recording-queue) .sgha-player.compact-player {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
-  main .compact-player > button {
+  :where(main, .recording-queue) .compact-player > button {
     grid-column: span 3;
   }
 
-  main .compact-player > button:nth-child(-n+3) {
+  :where(main, .recording-queue) .compact-player > button:nth-child(-n+3) {
     grid-column: span 4;
   }
 }
 
 /* Let long recording names wrap within the screen. */
 main section:has(.compact-player) h3 {
+  overflow-wrap: anywhere;
+}
+/* Queue visibility and spacing */
+.recording-queue .compact-player[hidden],
+.recording-queue .compact-player:not([hidden]) ~ button {
+  display: none;
+}
+
+.recording-queue {
+  width: min(90%, 720px);
   overflow-wrap: anywhere;
 }
