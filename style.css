@@ -621,4 +621,24 @@ html[data-theme] .sgha-player.compact-player input[type="range"] {
 html[data-theme] .sgha-player.compact-player :focus-visible {
   outline: 2px solid var(--seal-ivory);
   outline-offset: 2px;
+}/* Dark-mode navigation */
+html[data-theme="dark"] {
+  --sgha-nav-red: #a51e24;
+}
+
+html[data-theme="dark"] nav,
+html[data-theme="dark"] .sgha-theme-menu select {
+  background: #000;
+  color: #fff;
+}
+
+html[data-theme="dark"] nav a[aria-current="page"],
+html[data-theme="dark"] a.back {
+  background: var(--sgha-nav-red);
+  color: #fff;
+}
+
+html[data-theme="dark"] a.back {
+  padding: 4px 12px;
+  border-radius: 999px;
 }
