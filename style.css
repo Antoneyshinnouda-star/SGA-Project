@@ -589,3 +589,36 @@ main section:has(.compact-player) h3 {
   width: min(90%, 720px);
   overflow-wrap: anywhere;
 }
+/* SGHA seal colors — recording players and queue */
+html .sgha-player.compact-player {
+  --seal-red: #772a16;
+  --seal-deep-red: #552014;
+  --seal-gold: #e9c991;
+  --seal-ivory: #fff5df;
+  --seal-ink: #412417;
+}
+
+html[data-theme] .sgha-player.compact-player {
+  background: linear-gradient(105deg, var(--seal-deep-red), var(--seal-red));
+  border: 1px solid #a76642;
+  color: var(--seal-ivory);
+}
+
+html[data-theme] .sgha-player.compact-player button {
+  color: var(--seal-ivory);
+}
+
+html[data-theme] .sgha-player.compact-player button.sgha-play,
+html[data-theme] .sgha-player.compact-player button[aria-pressed="true"] {
+  background: var(--seal-gold);
+  color: var(--seal-ink);
+}
+
+html[data-theme] .sgha-player.compact-player input[type="range"] {
+  accent-color: var(--seal-gold);
+}
+
+html[data-theme] .sgha-player.compact-player :focus-visible {
+  outline: 2px solid var(--seal-ivory);
+  outline-offset: 2px;
+}
