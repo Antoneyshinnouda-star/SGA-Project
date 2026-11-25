@@ -282,11 +282,7 @@ const catalog = {
       "title": "Regular Weekdays Praise",
       "group": "Praise and incense"
     },
-    {
-      "id": "vespers-matins",
-      "title": "Vespers & Matins",
-      "group": "Praise and incense"
-    },
+    
     {
       "id": "offering-of-incense",
       "title": "Offering of Incense",
