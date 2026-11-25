@@ -173,7 +173,11 @@ const catalog = {
       "id": "praises202",
       "title": "Praises 202",
       "group": "hc2"
-    }
+    },
+    {"id": "deaconresponses101", "title": "Deacon Responses 101", "group": "hc"},
+    {"id": "deaconresponses102", "title": "Deacon Responses 102", "group": "hc"},
+    {"id": "deaconresponses201", "title": "Deacon Responses 201", "group": "hc2"},
+    {"id": "deaconresponses202", "title": "Deacon Responses 202", "group": "hc2"}
   ],
   "offerings": [
     {
@@ -260,7 +264,11 @@ const catalog = {
       "id": "rites20226",
       "course": "rites202",
       "academicYear": "2026–2027"
-    }
+    },
+    {"id": "deaconresponses10126", "course": "deaconresponses101", "academicYear": "2026–2027"},
+    {"id": "deaconresponses10226", "course": "deaconresponses102", "academicYear": "2026–2027"},
+    {"id": "deaconresponses20126", "course": "deaconresponses201", "academicYear": "2026–2027"},
+    {"id": "deaconresponses20226", "course": "deaconresponses202", "academicYear": "2026–2027"}
   ],
   "lessons": [],
   "resources": [],

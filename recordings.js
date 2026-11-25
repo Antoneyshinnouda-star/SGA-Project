@@ -256,6 +256,7 @@ function getRecordingQueue() {
   if (recordingQueueInstance) return recordingQueueInstance;
 
   const pending = [];
+  let queueGeneration = 0;
   let current = null;
 
   const panel = document.createElement('section');
@@ -282,7 +283,11 @@ function getRecordingQueue() {
   const skipTrack = recordingButton('Next in queue', playNext);
   actions.append(skipTrack);
   player.setAttribute('aria-label', 'queue recording');
-  panel.append(heading, status, player, next, list);
+  const endButton = document.createElement('button');
+  endButton.type = 'button';
+  endButton.textContent = 'End queue';
+  endButton.addEventListener('click', endQueue);
+  panel.append(heading, status, endButton, player, next, list);
   const queueBar = addHymnPlayer(player, actions);
 
   // Keep the queue outside <main>, which the app replaces during navigation.
@@ -313,6 +318,16 @@ function getRecordingQueue() {
     player.load();
     if (current?.ownsURL) URL.revokeObjectURL(current.url);
     current = null;
+  }
+
+  function endQueue() {
+    queueGeneration++;
+    releaseCurrent();
+    for (const track of pending) {
+      if (track.ownsURL) URL.revokeObjectURL(track.url);
+    }
+    pending.length = 0;
+    render();
   }
 
   async function playNext() {
@@ -349,6 +364,7 @@ function getRecordingQueue() {
   recordingQueueInstance = {
     async add(title, source) {
       if (!source) throw new Error('Missing recording source');
+      const generation = queueGeneration;
       const track = { title, url: source, ownsURL: false };
 
       // Local uploads need their own URL so leaving the album doesn't
@@ -356,7 +372,9 @@ function getRecordingQueue() {
       if (source.startsWith('blob:')) {
         const response = await fetch(source);
         if (!response.ok) throw new Error('Recording unavailable');
-        track.url = URL.createObjectURL(await response.blob());
+        const blob = await response.blob();
+        if (generation !== queueGeneration) return;
+        track.url = URL.createObjectURL(blob);
         track.ownsURL = true;
       }
 
