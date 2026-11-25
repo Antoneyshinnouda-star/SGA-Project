@@ -305,6 +305,16 @@ const catalog = {
       "id": "midnight-praises-weekdays",
       "title": "Midnight Praises – Weekdays",
       "group": "Praise and incense"
+    },   
+     {
+      "id": "saints-doxologies",
+      "title": "Saints Doxologies",
+      "group": "Praise and incense"
+    },
+    {
+      "id": "seasonal-doxologies",
+      "title": "Seasonal Doxologies",
+      "group": "Praise and incense"
     },
     {
       "id": "offering-of-the-lamb",
