@@ -107,7 +107,7 @@ html[data-theme="light"] {
 
 html[data-theme="dark"] body {
   color: #f3edef;
-  background: #181619;
+  background: #000000;
 }
 
 html[data-theme="dark"] header,
