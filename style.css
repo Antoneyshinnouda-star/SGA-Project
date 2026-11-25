@@ -599,7 +599,7 @@ html .sgha-player.compact-player {
 }
 
 html[data-theme] .sgha-player.compact-player {
- background: #88270c;
+background: #a51e24;
   border: 1px solid #a76642;
   color: var(--seal-ivory);
 }
