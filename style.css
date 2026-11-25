@@ -634,8 +634,9 @@ html[data-theme="dark"] .sgha-theme-menu select {
 
 html[data-theme="dark"] nav a[aria-current="page"],
 html[data-theme="dark"] a.back {
-  background: var(--sgha-nav-red);
-  color: #fff;
+background: transparent;
+color: var(--sgha-nav-red);
+box-shadow: none;
 }
 
 html[data-theme="dark"] a.back {
