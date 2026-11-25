@@ -92,8 +92,33 @@ el('h2', 'Lesson resources', main);
       el('p',years.length?'Choose a course to see its lessons.':'Courses will appear here when materials are added.',main);
       for(const y of years){
         el('h2',y.title,main);const grid=el('div','',main,'grid');
-        for(const g of catalog.classes.filter(x=>x.year===y.id))for(const c of catalog.courses.filter(x=>x.group===g.id)){
-          albumCard(grid,s.id+'/'+c.id,c.title,g.title);
+        const groups = catalog.classes.filter(group => group.year === y.id);
+        const cards = groups.flatMap(group =>
+          catalog.courses
+            .filter(course => course.group === group.id)
+            .map(course => ({ course, group }))
+        );
+
+        if (s.id === 'home') {
+          grid.classList.add('home-course-grid');
+          const subjects = ['Hymns', 'Praises', 'Deacon Responses'];
+
+          function courseOrder(title) {
+            const match = title.match(/^(.*) (\d+)$/);
+            if (!match) return [Infinity, subjects.length];
+            const subject = subjects.indexOf(match[1]);
+            return [Number(match[2]), subject < 0 ? subjects.length : subject];
+          }
+
+          cards.sort((a, b) => {
+            const [levelA, subjectA] = courseOrder(a.course.title);
+            const [levelB, subjectB] = courseOrder(b.course.title);
+            return levelA - levelB || subjectA - subjectB;
+          });
+        }
+
+        for (const { course, group } of cards) {
+          albumCard(grid, s.id + '/' + course.id, course.title, group.title);
         }
       }
     }
