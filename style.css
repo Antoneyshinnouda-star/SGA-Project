@@ -651,3 +651,92 @@ html[data-theme="dark"] a.back {
 .praises-group > summary::-webkit-details-marker { display: none; }
 .praises-group[open] > summary i { transform: rotate(90deg); }
 .praises-group > a.row { padding-inline-start: 1.5rem; }
+
+
+/* Optional filename colors for recording and queue players */
+
+.sgha-player[data-color="gold"] {
+  --track-bg: #67440e;
+  --track-border: #966a24;
+  --track-accent: #ffe09a;
+  --track-ink: #392400;
+}
+
+html[data-theme="dark"] .sgha-player[data-color="gold"] {
+  --track-bg: #50370f;
+  --track-border: #a17c36;
+  --track-accent: #ffdc86;
+  --track-ink: #332100;
+}
+
+.sgha-player[data-color="blue"] {
+  --track-bg: #204981;
+  --track-border: #416da5;
+  --track-accent: #bddcff;
+  --track-ink: #102e52;
+}
+
+html[data-theme="dark"] .sgha-player[data-color="blue"] {
+  --track-bg: #183659;
+  --track-border: #537ba4;
+  --track-accent: #a9d3ff;
+  --track-ink: #102b46;
+}
+
+.sgha-player[data-color="green"] {
+  --track-bg: #265939;
+  --track-border: #528362;
+  --track-accent: #c8ebbd;
+  --track-ink: #183d23;
+}
+
+html[data-theme="dark"] .sgha-player[data-color="green"] {
+  --track-bg: #1b402b;
+  --track-border: #558166;
+  --track-accent: #b2e3ae;
+  --track-ink: #163820;
+}
+
+.sgha-player[data-color="purple"] {
+  --track-bg: #593975;
+  --track-border: #8964a5;
+  --track-accent: #ebceff;
+  --track-ink: #382044;
+}
+
+html[data-theme="dark"] .sgha-player[data-color="purple"] {
+  --track-bg: #402952;
+  --track-border: #89649f;
+  --track-accent: #e4c1fa;
+  --track-ink: #321b41;
+}
+
+.sgha-player[data-color="teal"] {
+  --track-bg: #155658;
+  --track-border: #468183;
+  --track-accent: #a9eee3;
+  --track-ink: #0e3736;
+}
+
+html[data-theme="dark"] .sgha-player[data-color="teal"] {
+  --track-bg: #113e40;
+  --track-border: #4c8180;
+  --track-accent: #96dfd5;
+  --track-ink: #102f30;
+}
+
+html[data-theme] .sgha-player.compact-player[data-color] {
+  background: var(--track-bg);
+  border: 1px solid var(--track-border);
+  color: #fff;
+}
+
+html[data-theme] .sgha-player.compact-player[data-color] button.sgha-play,
+html[data-theme] .sgha-player.compact-player[data-color] button[aria-pressed="true"] {
+  background: var(--track-accent);
+  color: var(--track-ink);
+}
+
+html[data-theme] .sgha-player.compact-player[data-color] input[type="range"] {
+  accent-color: var(--track-accent);
+}

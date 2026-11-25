@@ -3,6 +3,20 @@ const SGHA_PROJECT_URL = 'https://htjmnkdgjqujcqpjslvs.supabase.co';
 const SGHA_PUBLISHABLE_KEY = 'sb_publishable_wtAWg6c6znRF6LmuwF_LGg_wEqWnCjW';
 const SGHA_BUCKET = 'sgha-public-hymns';
 
+function parseRecordingFilename(filename) {
+  const stem = filename.replace(/\.(mp3|m4a|wav)$/i, '');
+  const tag = /\[(gold|blue|green|purple|teal)\]/i;
+  const color = stem.match(tag)?.[1].toLowerCase() || '';
+  const title = stem
+    .replace(tag, ' ')
+    .trim()
+    .replace(/^\d+[\s_.-]+/, '')
+    .replace(/_/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return { title: title || 'Untitled recording', color };
+}
+
 async function recordings(course, offering, section, base) {
   link('‹ ' + course.title, base, main, 'back');
   const titles = {
@@ -54,14 +68,14 @@ async function recordings(course, offering, section, base) {
 
       for (const file of items) {
         if (!file.id || !/\.(mp3|m4a|wav)$/i.test(file.name)) continue;
-        const title = file.name.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+        const { title, color } = parseRecordingFilename(file.name);
         el('h3', title, list);
         const player = el('audio', '', list);
         player.controls = true;
         player.preload = 'metadata';
         player.setAttribute('aria-label', title);
         player.src = storage + '/public/' + SGHA_BUCKET + '/' + folder + '/' + encodeURIComponent(file.name);
-        addHymnPlayer(player);
+        addHymnPlayer(player, color);
         seen++;
       }
 
@@ -75,13 +89,14 @@ async function recordings(course, offering, section, base) {
   }
 }
 
-function addHymnPlayer(audio, queueActions = null) {
+function addHymnPlayer(audio, color = '', queueActions = null) {
   const name = audio.getAttribute('aria-label')
     || audio.previousElementSibling?.textContent
     || 'recording';
 
   const controls = document.createElement('div');
   controls.className = 'sgha-player';
+  if (color) controls.dataset.color = color;
   controls.setAttribute('role', 'group');
   controls.setAttribute('aria-label', name);
 
@@ -235,22 +250,28 @@ function addRecordingActions(audio, controls) {
   const title = heading?.matches('h3') ? heading.textContent : 'Recording';
 
   const add = recordingButton('Add to queue', async () => {
+    const generation = queueButtonGeneration;
     add.disabled = true;
     try {
-      await getRecordingQueue().add(title, audio.currentSrc || audio.src);
+      await getRecordingQueue().add(title, audio.currentSrc || audio.src, controls.dataset.color);
+      if (generation !== queueButtonGeneration) return;
       setRecordingIcon(add, 'Added ✓');
     } catch {
-      setRecordingIcon(add, 'Couldn’t add · Retry');
+      if (generation === queueButtonGeneration) {
+        setRecordingIcon(add, 'Couldn’t add · Retry');
+      }
     } finally {
-      add.disabled = false;
+      if (generation === queueButtonGeneration) add.disabled = false;
     }
   });
 
+  add.dataset.queueAdd = '';
   bar.append(add);
   buildCompactBar(audio, controls, bar);
 }
 
 let recordingQueueInstance;
+let queueButtonGeneration = 0;
 
 function getRecordingQueue() {
   if (recordingQueueInstance) return recordingQueueInstance;
@@ -288,7 +309,7 @@ function getRecordingQueue() {
   endButton.textContent = 'End queue';
   endButton.addEventListener('click', endQueue);
   panel.append(heading, status, endButton, player, next, list);
-  const queueBar = addHymnPlayer(player, actions);
+  const queueBar = addHymnPlayer(player, '', actions);
 
   // Keep the queue outside <main>, which the app replaces during navigation.
   document.body.append(panel);
@@ -303,6 +324,8 @@ function getRecordingQueue() {
 
     player.hidden = !current;
     queueBar.hidden = !current;
+    if (current?.color) queueBar.dataset.color = current.color;
+    else delete queueBar.dataset.color;
     skipTrack.disabled = pending.length === 0;
     next.disabled = pending.length === 0;
     setRecordingIcon(next, current ? 'Next in queue' : 'Play queue');
@@ -321,6 +344,11 @@ function getRecordingQueue() {
   }
 
   function endQueue() {
+    queueButtonGeneration++;
+    for (const button of document.querySelectorAll('button[data-queue-add]')) {
+      setRecordingIcon(button, 'Add to queue');
+      button.disabled = false;
+    }
     queueGeneration++;
     releaseCurrent();
     for (const track of pending) {
@@ -362,10 +390,10 @@ function getRecordingQueue() {
   render();
 
   recordingQueueInstance = {
-    async add(title, source) {
+    async add(title, source, color = '') {
       if (!source) throw new Error('Missing recording source');
       const generation = queueGeneration;
-      const track = { title, url: source, ownsURL: false };
+      const track = { title, url: source, color, ownsURL: false };
 
       // Local uploads need their own URL so leaving the album doesn't
       // invalidate the queued copy. Hosted recordings can use their URL.
