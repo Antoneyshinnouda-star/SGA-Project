@@ -5,7 +5,15 @@ const SGHA_BUCKET = 'sgha-public-hymns';
 
 async function recordings(course, offering, section, base) {
   link('‹ ' + course.title, base, main, 'back');
-  el('h2', section === 'sources' ? 'Source Recordings' : 'Lectures', main);
+  const titles = {
+    sources: 'Source Recordings',
+    lectures: 'Lectures',
+    'praises-lectures': 'Praises · Lectures',
+    'praises-sources': 'Praises · Source Recordings',
+    'doxologies-lectures': 'Doxologies · Lectures',
+    'doxologies-sources': 'Doxologies · Source Recordings'
+  };
+  el('h2', titles[section], main);
   const status = el('p', 'Loading recordings…', main);
   status.setAttribute('role', 'status');
   const list = el('section', '', main);

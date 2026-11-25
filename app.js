@@ -6,10 +6,19 @@ function el(tag,text,parent,cls){
   parent.append(node);return node;
 }
 function link(text,path,parent,cls){const a=el('a',text,parent,cls);a.href='#'+path;return a;}
-function row(title,path,detail){
-  const a=link('',path,main,'row'),label=el('span',title,a);
+function row(title,path,detail,parent=main){
+  const a=link('',path,parent,'row'),label=el('span',title,a);
   el('small',detail,label);el('i','›',a).setAttribute('aria-hidden','true');
 }
+function praisesDropdown(title, base, prefix) {
+  const details = el('details', '', main, 'praises-group');
+  const summary = el('summary', '', details, 'row');
+  el('span', title, summary);
+  el('i', '›', summary).setAttribute('aria-hidden', 'true');
+  row('Lectures', base + '/' + prefix + '-lectures', '', details);
+  row('Source Recordings', base + '/' + prefix + '-sources', '', details);
+}
+
 function albumCard(grid,path,title,subtitle){
   const a=link('',path,grid,'card'), cover=el('div','',a,'cover');
   const image=el('img','',cover);image.src='academy.png';image.alt='';
@@ -54,9 +63,18 @@ el('h2', 'Lesson resources', main);
   }else if(course&&base){
     link('‹ '+s.tab,s.id,main,'back');el('h1',course.title,main);
     
-    if(lid==='lectures'||lid==='sources'){recordings(course,offering,lid,base);}else{
-    row('Lectures',base+'/lectures','Class lectures and instruction');
-    row('Source Recordings',base+'/sources','Reference audio for practice');
+    const isPraises = cid.startsWith('praises');
+    const grouped = isPraises && /^(praises|doxologies)-(lectures|sources)$/.test(lid);
+    if (lid === 'lectures' || lid === 'sources' || grouped) {
+      recordings(course, offering, lid, base);
+    } else {
+      if (isPraises) {
+        praisesDropdown('Praises', base, 'praises');
+        praisesDropdown('Doxologies', base, 'doxologies');
+      } else {
+        row('Lectures', base + '/lectures', 'Class lectures and instruction');
+        row('Source Recordings', base + '/sources', 'Reference audio for practice');
+      }
     if(catalog.lessons.some(l=>l.course===cid))el('h2','Lessons',main);
     for(const l of catalog.lessons.filter(x=>x.course===cid))row(l.title,base+'/'+l.id,'View resources');
     }

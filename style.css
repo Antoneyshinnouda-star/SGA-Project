@@ -643,3 +643,11 @@ html[data-theme="dark"] a.back {
   padding: 4px 12px;
   border-radius: 999px;
 }
+
+/* Praises course recording groups */
+.praises-group { max-width: 720px; }
+.praises-group > summary.row { cursor: pointer; list-style: none; }
+.praises-group > summary::marker { content: ""; }
+.praises-group > summary::-webkit-details-marker { display: none; }
+.praises-group[open] > summary i { transform: rotate(90deg); }
+.praises-group > a.row { padding-inline-start: 1.5rem; }
