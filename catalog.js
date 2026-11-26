@@ -1,8 +1,9 @@
+
 const catalog = {
   "sections": [
     {
       "id": "home",
-      "title": "Hymns & Praises",
+      "title": "Home",
       "tab": "Home",
       "symbol": "house",
       "kind": "curriculum"
@@ -65,7 +66,7 @@ const catalog = {
     {
       "id": "hc",
       "year": "h1",
-      "title": "Hymns & Praises Class"
+      "title": "Hymns Class"
     },
     {
       "id": "cc",
@@ -80,7 +81,7 @@ const catalog = {
     {
       "id": "hc2",
       "year": "h2",
-      "title": "Hymns & Praises Class"
+      "title": "Hymns Class"
     },
     {
       "id": "cc2",
@@ -91,6 +92,26 @@ const catalog = {
       "id": "rc2",
       "year": "rites2",
       "title": "Church Rites Class"
+    },
+    {
+      "id": "praises-class",
+      "year": "h1",
+      "title": "Praises Class"
+    },
+    {
+      "id": "deaconresponses-class",
+      "year": "h1",
+      "title": "Deacon Responses Class"
+    },
+    {
+      "id": "praises2-class",
+      "year": "h2",
+      "title": "Praises Class"
+    },
+    {
+      "id": "deaconresponses2-class",
+      "year": "h2",
+      "title": "Deacon Responses Class"
     }
   ],
   "courses": [
@@ -157,27 +178,43 @@ const catalog = {
     {
       "id": "praises101",
       "title": "Praises 101",
-      "group": "hc"
+      "group": "praises-class"
     },
     {
       "id": "praises102",
       "title": "Praises 102",
-      "group": "hc"
+      "group": "praises-class"
     },
     {
       "id": "praises201",
       "title": "Praises 201",
-      "group": "hc2"
+      "group": "praises2-class"
     },
     {
       "id": "praises202",
       "title": "Praises 202",
-      "group": "hc2"
+      "group": "praises2-class"
     },
-    {"id": "deaconresponses101", "title": "Deacon Responses 101", "group": "hc"},
-    {"id": "deaconresponses102", "title": "Deacon Responses 102", "group": "hc"},
-    {"id": "deaconresponses201", "title": "Deacon Responses 201", "group": "hc2"},
-    {"id": "deaconresponses202", "title": "Deacon Responses 202", "group": "hc2"}
+    {
+      "id": "deaconresponses101",
+      "title": "Deacon Responses 101",
+      "group": "deaconresponses-class"
+    },
+    {
+      "id": "deaconresponses102",
+      "title": "Deacon Responses 102",
+      "group": "deaconresponses-class"
+    },
+    {
+      "id": "deaconresponses201",
+      "title": "Deacon Responses 201",
+      "group": "deaconresponses2-class"
+    },
+    {
+      "id": "deaconresponses202",
+      "title": "Deacon Responses 202",
+      "group": "deaconresponses2-class"
+    }
   ],
   "offerings": [
     {
@@ -265,10 +302,26 @@ const catalog = {
       "course": "rites202",
       "academicYear": "2026–2027"
     },
-    {"id": "deaconresponses10126", "course": "deaconresponses101", "academicYear": "2026–2027"},
-    {"id": "deaconresponses10226", "course": "deaconresponses102", "academicYear": "2026–2027"},
-    {"id": "deaconresponses20126", "course": "deaconresponses201", "academicYear": "2026–2027"},
-    {"id": "deaconresponses20226", "course": "deaconresponses202", "academicYear": "2026–2027"}
+    {
+      "id": "deaconresponses10126",
+      "course": "deaconresponses101",
+      "academicYear": "2026–2027"
+    },
+    {
+      "id": "deaconresponses10226",
+      "course": "deaconresponses102",
+      "academicYear": "2026–2027"
+    },
+    {
+      "id": "deaconresponses20126",
+      "course": "deaconresponses201",
+      "academicYear": "2026–2027"
+    },
+    {
+      "id": "deaconresponses20226",
+      "course": "deaconresponses202",
+      "academicYear": "2026–2027"
+    }
   ],
   "lessons": [],
   "resources": [],
@@ -290,7 +343,6 @@ const catalog = {
       "title": "Regular Weekdays Praise",
       "group": "Praise and incense"
     },
-    
     {
       "id": "offering-of-incense",
       "title": "Offering of Incense",
@@ -305,8 +357,8 @@ const catalog = {
       "id": "midnight-praises-weekdays",
       "title": "Midnight Praises – Weekdays",
       "group": "Praise and incense"
-    },   
-     {
+    },
+    {
       "id": "saints-doxologies",
       "title": "Saints Doxologies",
       "group": "Praise and incense"
@@ -326,8 +378,6 @@ const catalog = {
       "title": "Liturgy of the Word",
       "group": "Liturgy"
     },
-    
-  
     {
       "id": "liturgy-of-st-basil",
       "title": "Liturgy of St. Basil",
@@ -348,7 +398,6 @@ const catalog = {
       "title": "Distribution / Communion",
       "group": "Liturgy"
     },
-    
     {
       "id": "veneration-service",
       "title": "Veneration Service",
