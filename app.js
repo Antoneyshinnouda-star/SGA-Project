@@ -172,10 +172,52 @@ function render() {
 
   el('footer', 'SGHA Study Library', main);
   document.title = main.querySelector('h1').textContent + ' · SGHA';
+  animateViewEntrance();
   window.scrollTo(0, 0);
 }
 
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function animateViewEntrance() {
+  if (reducedMotionQuery.matches) return;
+  main.classList.remove('sgha-view-enter');
+  void main.offsetWidth;
+  let step = 0;
+  for (const child of main.children) {
+    if (child.matches('h1, h2, p, .back, .row, .praises-group')) {
+      child.style.setProperty('--stagger', String(Math.min(step++, 10)));
+    }
+  }
+  const cards = main.querySelectorAll('.grid > .card');
+  cards.forEach((card, index) => {
+    card.style.setProperty('--stagger', String(Math.min(index, 10)));
+    card.classList.add('sgha-enter');
+  });
+  main.classList.add('sgha-view-enter');
+}
+
+function setupMicroInteractions() {
+  const interactiveSelector = 'button:not(:disabled), .row, nav a, .back';
+
+  document.addEventListener('pointerdown', event => {
+    if (reducedMotionQuery.matches || event.button !== 0) return;
+    const target = event.target.closest(interactiveSelector);
+    if (!target) return;
+
+    target.classList.remove('sgha-click-pulse');
+    void target.offsetWidth;
+    target.classList.add('sgha-click-pulse');
+
+    const cleanup = () => {
+      target.classList.remove('sgha-click-pulse');
+    };
+    target.addEventListener('animationend', cleanup, { once: true });
+    setTimeout(cleanup, 480);
+  });
+}
+
 window.addEventListener('hashchange', render);
+setupMicroInteractions();
 render();
 
 function setupThemeMenu() {
@@ -218,6 +260,12 @@ function setupThemeMenu() {
 
   select.addEventListener('change', () => {
     preference = select.value;
+    if (!reducedMotionQuery.matches) {
+      document.documentElement.classList.add('sgha-theme-transition');
+      setTimeout(() => {
+        document.documentElement.classList.remove('sgha-theme-transition');
+      }, 240);
+    }
     applyTheme();
     try {
       localStorage.setItem(storageKey, preference);
