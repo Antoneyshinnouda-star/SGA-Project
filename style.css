@@ -376,12 +376,12 @@ main h3:has(+ audio) {
 
 /* Album and queue players share the same layout and palette. */
 .compact-player {
-  --track-bg: #dcaf46;
-  --track-border: #b68e54;
-  --track-accent: #a51e24;
-  --track-ink: #fff5df;
-  --button-color: #412417;
-  --focus-color: #412417;
+  --track-bg: #ac9b79;
+  --track-border: #8e3117;
+  --track-accent: #862209;
+  --track-ink: #fffffc;
+  --button-color: #351c13;
+  --focus-color: var(--button-color);
   display: grid;
   grid-template-columns: repeat(5, 44px) minmax(0, 1fr) repeat(2, 44px);
   align-items: center;
@@ -393,7 +393,7 @@ main h3:has(+ audio) {
   border: 1px solid var(--track-border);
   border-radius: 8px;
   background: var(--track-bg);
-  color: #412417;
+  color: var(--button-color);
 }
 
 .compact-player[data-color] {
