@@ -399,6 +399,11 @@ main h3:has(+ audio) {
   --track-accent: #862209;
   --track-ink: #fffffc;
   --button-color: #351c13;
+  --track-bg: rgb(172 155 121 / 15%);
+  --track-border: rgb(129 108 84 / 22%);
+  --track-accent: #89695e;
+  --track-ink: #fffaf5;
+  --button-color: #554b43;
   --focus-color: var(--button-color);
   display: grid;
   grid-template-columns: repeat(5, 44px) minmax(0, 1fr) repeat(2, 44px);
@@ -412,6 +417,14 @@ main h3:has(+ audio) {
   border-radius: 8px;
   background: var(--track-bg);
   color: var(--button-color);
+}
+
+html[data-theme="dark"] .compact-player:not([data-color]) {
+  --track-bg: rgb(172 155 121 / 14%);
+  --track-border: rgb(189 169 139 / 22%);
+  --track-accent: #bc9a8e;
+  --track-ink: #302320;
+  --button-color: #e2d8ca;
 }
 
 .compact-player[data-color] {
