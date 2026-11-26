@@ -319,13 +319,11 @@ main .grid.home-course-grid > .card {
   overflow-wrap: anywhere;
 }
 /* Praises course recording groups */
-.praises-group { max-width: 720px; }
 .praises-group { max-width: 720px; margin-inline: auto; }
 .praises-group > summary.row { cursor: pointer; list-style: none; }
 .praises-group > summary::marker { content: ""; }
 .praises-group > summary::-webkit-details-marker { display: none; }
 .praises-group[open] > summary i { transform: rotate(90deg); }
-.praises-group > a.row { padding-inline-start: 1.5rem; }
 
 
 button {
@@ -394,16 +392,11 @@ main h3:has(+ audio) {
 
 /* Album and queue players share the same layout and palette. */
 .compact-player {
-  --track-bg: #ac9b79;
-  --track-border: #8e3117;
-  --track-accent: #862209;
-  --track-ink: #fffffc;
-  --button-color: #351c13;
-  --track-bg: rgb(172 155 121 / 15%);
-  --track-border: rgb(129 108 84 / 22%);
-  --track-accent: #89695e;
+  --track-bg: rgb(255 249 231 / 76%);
+  --track-border: rgb(194 150 42 / 66%);
+  --track-accent: rgb(171 40 52 / 61%);
   --track-ink: #fffaf5;
-  --button-color: #554b43;
+  --button-color: #56391e;
   --focus-color: var(--button-color);
   display: grid;
   grid-template-columns: repeat(5, 44px) minmax(0, 1fr) repeat(2, 44px);
@@ -420,11 +413,11 @@ main h3:has(+ audio) {
 }
 
 html[data-theme="dark"] .compact-player:not([data-color]) {
-  --track-bg: rgb(172 155 121 / 14%);
-  --track-border: rgb(189 169 139 / 22%);
-  --track-accent: #bc9a8e;
-  --track-ink: #302320;
-  --button-color: #e2d8ca;
+  --track-bg: rgb(47 45 43 / 90%);
+  --track-border: rgb(203 174 108 / 60%);
+  --track-accent: rgb(172 42 53 / 72%);
+  --track-ink: #fffaf5;
+  --button-color: #e4c885;
 }
 
 .compact-player[data-color] {
@@ -458,6 +451,14 @@ html[data-theme="dark"] .compact-player:not([data-color]) {
   background: var(--track-accent);
   color: var(--track-ink);
 }
+html[data-theme="light"] .compact-player:not([data-color]) {
+  border-inline-start: 3px solid #c39838;
+
+}
+html[data-theme="light"] .compact-player:not([data-color]) input[type="range"] {
+  accent-color: #92701e;
+}
+
 .compact-player button:disabled { opacity: 0.4; cursor: default; }
 .compact-timeline {
   display: grid;
