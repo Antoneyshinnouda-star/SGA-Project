@@ -653,12 +653,12 @@ html.sgha-theme-transition .compact-player,
 html.sgha-theme-transition .row,
 html.sgha-theme-transition select {
   transition:
-    background-color 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease;
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
 }
 
-/* --- 1. Base Smooth Transitions & Hover Zoom (scale 1.03 - 1.05) --- */
+/* --- 1. Base Smooth Transitions & Hover Zoom (0.75s) --- */
 
 .brand,
 nav a,
@@ -671,12 +671,12 @@ select,
 .compact-player button,
 .recording-queue > button {
   transition:
-    transform 0.35s var(--ease-spring),
-    box-shadow 0.35s ease,
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease,
-    opacity 0.25s ease;
+    transform 0.75s var(--ease-spring),
+    box-shadow 0.75s ease,
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    opacity 0.35s ease;
   will-change: transform;
 }
 
@@ -685,9 +685,9 @@ select,
 .cover img,
 .row i {
   transition:
-    transform 0.38s var(--ease-spring),
-    box-shadow 0.35s ease,
-    filter 0.3s ease;
+    transform 0.75s var(--ease-spring),
+    box-shadow 0.75s ease,
+    filter 0.45s ease;
 }
 
 /* Header brand & nav tabs */
@@ -808,7 +808,7 @@ button:not(:disabled):hover {
 }
 
 .compact-timeline input[type="range"] {
-  transition: transform 0.35s var(--ease-spring), opacity 0.25s ease;
+  transition: transform 0.75s var(--ease-spring), opacity 0.35s ease;
 }
 
 .compact-timeline input[type="range"]:not(:disabled):hover {
@@ -827,7 +827,7 @@ select:active,
 .compact-player button:not(:disabled):active,
 .recording-queue > button:not(:disabled):active {
   transform: scale(0.96);
-  transition-duration: 0.09s;
+  transition-duration: 0.14s;
 }
 
 /* Expanding GPU-accelerated pulse ring on click (triggered via JS class) */
@@ -846,7 +846,7 @@ nav a,
   border: 2px solid var(--pulse-ring);
   pointer-events: none;
   opacity: 0;
-  animation: sgha-pulse-ring 0.6s var(--ease-spring) forwards;
+  animation: sgha-pulse-ring 0.75s var(--ease-spring) forwards;
 }
 
 .compact-player button.sgha-click-pulse::after {
@@ -866,7 +866,7 @@ nav a,
 
 /* Subtle flash feedback when speed or queue state updates */
 .sgha-pop {
-  animation: sgha-pop-bounce 0.42s var(--ease-spring);
+  animation: sgha-pop-bounce 0.75s var(--ease-spring);
 }
 
 @keyframes sgha-pop-bounce {
@@ -896,7 +896,7 @@ nav a,
   border-radius: 50%;
   border: 2px solid var(--track-accent);
   pointer-events: none;
-  animation: sgha-playing-pulse 2s ease-out infinite;
+  animation: sgha-playing-pulse 2.2s ease-out infinite;
 }
 
 @keyframes sgha-playing-pulse {
@@ -914,12 +914,12 @@ nav a,
   }
 }
 
-/* --- 4. Entrance & Dropdown Animations (GPU-accelerated transform & opacity) --- */
+/* --- 4. Entrance & Dropdown Animations (0.75s) --- */
 
 @keyframes sgha-fade-slide-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -930,7 +930,7 @@ nav a,
 @keyframes sgha-dropdown-in {
   from {
     opacity: 0;
-    transform: translateY(-8px) scale(0.98);
+    transform: translateY(-10px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -945,39 +945,39 @@ main.sgha-view-enter > p,
 main.sgha-view-enter > .back,
 main.sgha-view-enter > .row,
 main.sgha-view-enter > .praises-group {
-  animation: sgha-fade-slide-up 0.5s var(--ease-spring) backwards;
-  animation-delay: calc(var(--stagger, 0) * 45ms);
+  animation: sgha-fade-slide-up 0.75s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 65ms);
 }
 
 /* Staggered card grid entrance */
 main .grid > .card.sgha-enter {
-  animation: sgha-fade-slide-up 0.55s var(--ease-spring) backwards;
-  animation-delay: calc(var(--stagger, 0) * 45ms);
+  animation: sgha-fade-slide-up 0.75s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 65ms);
 }
 
 /* Praises / Doxologies native <details> dropdown open animation */
 .praises-group[open] > a.row {
-  animation: sgha-dropdown-in 0.42s var(--ease-spring) backwards;
+  animation: sgha-dropdown-in 0.75s var(--ease-spring) backwards;
 }
 
 .praises-group[open] > a.row:nth-of-type(2) {
-  animation-delay: 75ms;
+  animation-delay: 110ms;
 }
 
 /* Track list items entrance when recordings load */
 .sgha-track-enter {
-  animation: sgha-fade-slide-up 0.5s var(--ease-spring) backwards;
-  animation-delay: calc(var(--stagger, 0) * 45ms);
+  animation: sgha-fade-slide-up 0.75s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 65ms);
 }
 
 /* Queue panel & queued track list entrance */
 .recording-queue.sgha-panel-enter {
-  animation: sgha-fade-slide-up 0.5s var(--ease-spring) backwards;
+  animation: sgha-fade-slide-up 0.75s var(--ease-spring) backwards;
 }
 
 .recording-queue ol li {
-  animation: sgha-fade-slide-up 0.4s var(--ease-spring) backwards;
-  animation-delay: calc(var(--stagger, 0) * 40ms);
+  animation: sgha-fade-slide-up 0.75s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 60ms);
 }
 
 /* --- 5. Accessibility: Respect prefers-reduced-motion --- */
@@ -1018,4 +1018,3 @@ main .grid > .card.sgha-enter {
     transform: rotate(90deg) !important;
   }
 }
-```[cite: 3]
