@@ -1,74 +1,175 @@
-*{box-sizing:border-box}body{margin:0;color:#242129;background:#fff;font:16px/1.5 "DM Sans",system-ui,sans-serif}header{display:flex;align-items:center;gap:6vw;padding:14px 5vw;border-bottom:1px solid #e8e5e5}a{color:inherit;text-decoration:none}.brand{font-weight:800;letter-spacing:.08em;display:flex;align-items:center;gap:9px}.brand b{background:#742d40;color:#f8df9b;border-radius:50%;width:34px;line-height:34px;text-align:center}nav{display:flex;gap:3px;background:#f4f3f3;border-radius:30px;padding:4px}nav a{padding:6px 14px;border-radius:24px;font-size:15px}nav a[aria-current]{background:white;color:#782d44;box-shadow:0 1px 4px #0002;font-weight:650}main{max-width:1200px;margin:auto;padding:30px 5vw 84px}h1{font-size:clamp(32px,4vw,48px);letter-spacing:-.045em;line-height:1.13;margin:10px 0}h2{font-size:22px;margin:28px 0 12px}p,.sub,small{color:#635e65}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,200px));gap:20px}.card{display:block}.brand img{border-radius:50%}.cover{display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:black}.cover img{display:block;width:100%;height:100%;object-fit:contain}.card strong,.card small{display:block;margin-top:5px}.card:hover .cover{filter:brightness(1.08)}.row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid #e7e5e5;max-width:720px}.row:hover,.back:hover{text-decoration:underline}.row small{display:block}.row i{font:24px Georgia;color:#82747a}.back{display:inline-block;color:#792f45;margin-bottom:12px}.year{display:inline-flex;align-items:center;gap:12px;margin:16px 0}select{font:inherit;padding:7px;border:1px solid #ccc;border-radius:7px;background:white}footer{border-top:1px solid #e6e3e4;margin-top:40px;padding-top:12px;color:#726970;font-size:14px}@media(max-width:650px){header{display:block}nav{position:fixed;z-index:2;bottom:0;left:0;right:0;justify-content:space-around;border-radius:0;padding:8px 2px max(8px,env(safe-area-inset-bottom));border-top:1px solid #ddd}nav a{font-size:14px;padding:8px 4px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-form{max-width:540px;padding:20px;border:1px solid #ddd;border-radius:12px}form label,form input{display:block;width:100%;margin-bottom:10px}form input,button{font:inherit;padding:8px}button{background:#742d40;color:white;border:0;border-radius:8px;cursor:pointer}audio{max-width:100%}
+* {
+  box-sizing: border-box;
+}
 
-form .picker{display:inline-flex;width:auto;position:relative;align-items:center;min-height:44px;padding:8px 18px;background:#742d40;color:white;border-radius:8px;overflow:hidden}
-.picker input[type=file]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
-.picker:focus-within{outline:3px solid #1567ad}form small{display:block;margin-bottom:14px}
-/* SGHA hymn recording player */
-.sgha-player {
+body {
+  margin: 0;
+  color: #242129;
+  background: #fff;
+  font: 16px/1.5 "DM Sans",system-ui,sans-serif;
+}
+
+header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 620px;
-  margin: 4px 0 24px;
-  padding: 12px 16px;
-  background: #faf6ef;
-  border: 1px solid #e7d9c7;
-  border-radius: 18px;
+  gap: 6vw;
+  padding: 14px 5vw;
+  border-bottom: 1px solid #e8e5e5;
 }
 
-.sgha-player .sgha-play {
-  display: grid;
-  place-items: center;
-  flex: 0 0 46px;
-  height: 46px;
-  padding: 0;
-  border: 0;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: .08em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+nav {
+  display: flex;
+  gap: 3px;
+  background: #f4f3f3;
+  border-radius: 30px;
+  padding: 4px;
+}
+
+nav a {
+  padding: 6px 14px;
+  border-radius: 24px;
+  font-size: 15px;
+}
+
+nav a[aria-current] {
+  background: white;
+  color: #782d44;
+  box-shadow: 0 1px 4px #0002;
+  font-weight: 650;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 5vw 84px;
+}
+
+h1 {
+  font-size: clamp(32px,4vw,48px);
+  letter-spacing: -.045em;
+  line-height: 1.13;
+  margin: 10px 0;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 28px 0 12px;
+}
+
+p,.sub,small {
+  color: #635e65;
+}
+
+.card {
+  display: block;
+}
+
+.brand img {
   border-radius: 50%;
-  background: #762d3d;
-  color: white;
-  cursor: pointer;
 }
 
-.sgha-play svg {
-  width: 21px;
-  height: 21px;
-  fill: currentColor;
+.cover {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
 }
 
-.sgha-player input[type="range"] {
-  flex: 1;
-  min-width: 0;
-  height: 32px;
-  margin: 0;
-  accent-color: #762d3d;
-  cursor: pointer;
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.sgha-time {
-  color: #554743;
-  font: 500 13px/1.2 system-ui, sans-serif;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+.card strong,.card small {
+  display: block;
+  margin-top: 5px;
 }
 
-.sgha-player :focus-visible {
-  outline: 3px solid #98681e;
-  outline-offset: 3px;
+.card:hover .cover {
+  filter: brightness(1.08);
 }
 
-@media (max-width: 420px) {
-  .sgha-player {
-    gap: 9px;
-    padding: 10px;
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 0;
+  border-bottom: 1px solid #e7e5e5;
+  max-width: 720px;
+}
+
+.row:hover,.back:hover {
+  text-decoration: underline;
+}
+
+.row small {
+  display: block;
+}
+
+.row i {
+  font: 24px Georgia;
+  color: #82747a;
+}
+
+.back {
+  display: inline-block;
+  color: #792f45;
+  margin-bottom: 12px;
+}
+
+select {
+  font: inherit;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: white;
+}
+
+footer {
+  border-top: 1px solid #e6e3e4;
+  margin-top: 40px;
+  padding-top: 12px;
+  color: #726970;
+  font-size: 14px;
+}
+
+@media(max-width:650px) {
+  nav {
+    position: fixed;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-around;
+    border-radius: 0;
+    padding: 8px 2px max(8px,env(safe-area-inset-bottom));
+    border-top: 1px solid #ddd;
   }
 
-  .sgha-time {
-    font-size: 12px;
+  nav a {
+    font-size: 14px;
+    padding: 8px 4px;
   }
+
 }
+
 /* SGHA theme menu */
 .sgha-theme-menu {
   display: inline-flex;
@@ -112,19 +213,20 @@ html[data-theme="light"] {
 
 html[data-theme="dark"] header,
 html[data-theme="dark"] .row,
-html[data-theme="dark"] footer,
-html[data-theme="dark"] form {
+html[data-theme="dark"] footer {
   border-color: #484047;
 }
 
 html[data-theme="dark"] nav {
-  background: #2d282d;
+  background: #000;
+  color: #fff;
   border-color: #484047;
 }
 
 html[data-theme="dark"] nav a[aria-current="page"] {
-  color: #ffe4df;
-  background: #62313e;
+  color: #a51e24;
+  background: transparent;
+  box-shadow: none;
 }
 
 html[data-theme="dark"] p,
@@ -136,37 +238,31 @@ html[data-theme="dark"] .row i {
 }
 
 html[data-theme="dark"] .back {
-  color: #f2b4c0;
+  color: #a51e24;
+  background: transparent;
+  box-shadow: none;
+  padding: 4px 12px;
+  border-radius: 999px;
 }
 
-html[data-theme="dark"] select,
-html[data-theme="dark"] input:not([type="range"]):not([type="file"]) {
+html[data-theme="dark"] select {
   color: #f3edef;
   background: #2d282d;
   border-color: #655760;
 }
 
-html[data-theme="dark"] .sgha-player {
-  background: #30272a;
-  border-color: #58444b;
-}
 
-html[data-theme="dark"] .sgha-time {
-  color: #f2dfe2;
-}
-
-html[data-theme="dark"] .sgha-player input[type="range"] {
-  accent-color: #efa5b6;
+html[data-theme="dark"] .sgha-theme-menu select {
+  background: #000;
+  color: #fff;
 }
 
 html[data-theme="dark"] :focus-visible {
   outline: 3px solid #efbd79;
   outline-offset: 3px;
-}img[src$="academy.jpg"] {
-  clip-path: ellipse(48% 46.4% at 50% 50.1%);
-}.card .cover {
-  background: transparent;
-}/* Center page titles, section headings, and introductory text. */
+}
+
+/* Center page titles, section headings, and introductory text. */
 main h1,
 main h2,
 main > p {
@@ -187,463 +283,25 @@ main .grid > .card {
   max-width: 200px;
   min-width: 0;
   text-align: center;
-}.recording-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 8px 0 18px;
 }
 
-.recording-actions button,
-.recording-queue > button {
-  min-height: 44px;
-  padding: 6px 14px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.recording-actions button[aria-pressed="true"] {
-  background: #762d3d;
-  color: white;
-}
-
-.recording-actions button:disabled,
-.recording-queue button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-.recording-queue {
-  max-width: 720px;
-  margin: 12px auto 90px;
-  padding: 16px;
-  border: 1px solid currentColor;
-  border-radius: 14px;
-}
-
-.recording-queue h2 {
-  margin-top: 0;
-}
-
-.recording-queue audio {
+/* Home: one row per level, one column per subject. */
+main .grid.home-course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 2vw, 20px);
   width: 100%;
-}
-
-.recording-actions[hidden],
-.recording-queue[hidden],
-.recording-queue audio[hidden] {
-  display: none;
-}/* Recording list */
-main {
-  --track-line: #ded5d7;
-  --track-ink: #53474b;
-  --track-accent: #762d3d;
-  --track-tint: #f5e9ec;
-}
-
-html[data-theme="dark"] main {
-  --track-line: #423b40;
-  --track-ink: #d4c9cd;
-  --track-accent: #f0b1c1;
-  --track-tint: #39292f;
-}
-
-/* Give the title, player, and actions the same centered column. */
-main h3:has(+ audio),
-main .sgha-player,
-main .sgha-player + .recording-actions {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 680px;
+  max-width: 640px;
   margin-inline: auto;
 }
 
-main h3:has(+ audio) {
-  margin-block: 20px 4px;
-  text-align: left;
-  font-size: 1.05rem;
-  line-height: 1.4;
-}
-
-/* Let the play button and timeline sit directly on the page. */
-html main .sgha-player {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-block: 0;
-  padding: 4px 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-html[data-theme="dark"] main .sgha-player {
-  background: transparent;
-  border: 0;
-}
-
-main .sgha-player .sgha-play {
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-}
-
-main .sgha-player input[type="range"] {
-  flex: 1;
-  min-width: 0;
-  accent-color: var(--track-accent);
-}
-
-main .sgha-player .sgha-time {
-  color: var(--track-ink);
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-
-/* Group the practice controls; keep the queue action on the right. */
-main .sgha-player + .recording-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2px;
-  margin-block: 0 16px;
-  padding: 0 0 8px;
-  border-bottom: 1px solid var(--track-line);
-}
-
-main .recording-actions button {
-  min-height: 44px;
-  padding: 4px 10px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--track-ink);
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 550;
-}
-
-main .recording-actions button:last-child {
-  margin-inline-start: auto;
-  color: var(--track-accent);
-}
-
-main .recording-actions button[aria-pressed="true"] {
-  background: var(--track-tint);
-  color: var(--track-accent);
-  font-weight: 700;
-}
-
-@media (hover: hover) {
-  main .recording-actions button:not(:disabled):hover {
-    background: var(--track-tint);
-  }
-}
-
-/* SGHA playback icons */
-.recording-actions button.hymn-icon,
-.recording-queue > button.hymn-icon {
-  display: inline-grid;
-  place-content: center;
-  position: relative;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: inherit;
-  font: 24px/1 system-ui, sans-serif;
-}
-.hymn-icon:has(small) { padding-bottom: 8px !important; }
-.hymn-icon small {
-  position: absolute;
-  bottom: 3px;
-  left: 0;
+main .grid.home-course-grid > .card {
   width: 100%;
+  min-width: 0;
+  max-width: none;
   text-align: center;
-  font: 600 11px/1 system-ui, sans-serif;
-  color: inherit;
-}
-.recording-actions button.hymn-icon[aria-pressed="true"] {
-  background: #762d3d;
-  color: white;
-}
-.hymn-icon:focus-visible { outline: 2px solid currentColor; }
-
-
-/* Compact recording bar */
-html :where(main, .recording-queue) .sgha-player.compact-player {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  width: 100%;
-  max-width: 680px;
-  margin: 5px auto 20px;
-  padding: 3px 9px;
-  border: 0;
-  border-radius: 8px;
-  background: #f0eded;
-  color: #292629;
-  box-shadow: none;
-}
-
-html[data-theme="dark"] :where(main, .recording-queue) .sgha-player.compact-player {
-  background: #302e30;
-  color: #fafafa;
-}
-
-:where(main, .recording-queue) .compact-player button {
-  display: inline-grid;
-  place-items: center;
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: inherit;
-  font: 600 16px/1 system-ui, sans-serif;
-  cursor: pointer;
-}
-
-:where(main, .recording-queue) .compact-player button svg {
-  display: block;
-  width: 23px;
-  height: 23px;
-}
-
-:where(main, .recording-queue) .compact-player button.sgha-play {
-  background: radial-gradient(circle, #292629 0 15px, transparent 16px);
-  color: white;
-}
-
-html[data-theme="dark"] :where(main, .recording-queue) .compact-player button.sgha-play {
-  background: radial-gradient(circle, white 0 15px, transparent 16px);
-  color: #242224;
-}
-
-:where(main, .recording-queue) .compact-player .sgha-play svg {
-  width: 15px;
-  height: 15px;
-}
-
-:where(main, .recording-queue) .compact-player button[aria-pressed="true"] {
-  background: #ead3da;
-  color: #742d40;
-}
-
-html[data-theme="dark"] :where(main, .recording-queue) .compact-player button[aria-pressed="true"] {
-  background: #56333e;
-  color: #ffd5df;
-}
-
-:where(main, .recording-queue) .compact-player button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-:where(main, .recording-queue) .compact-player .compact-timeline {
-  display: flex;
-  flex: 1 1 120px;
-  min-width: 0;
-  align-items: center;
-  gap: 7px;
-  padding-inline: 4px;
-  font: 600 12px/1 system-ui, sans-serif;
-  font-variant-numeric: tabular-nums;
-}
-
-:where(main, .recording-queue) .compact-timeline input[type="range"] {
-  flex: 1;
-  min-width: 0;
-  width: 100%;
-  margin: 0;
-  accent-color: currentColor;
-  color: inherit;
-}
-
-:where(main, .recording-queue) .compact-player :focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 1px;
-}
-
-@media (max-width: 600px) {
-  html :where(main, .recording-queue) .sgha-player.compact-player {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0;
-    padding: 5px;
-  }
-
-  :where(main, .recording-queue) .compact-player .compact-timeline {
-    flex: 1 0 100%;
-    order: -1;
-  }
-
-  :where(main, .recording-queue) .compact-player button {
-    flex: 1 1 0;
-    max-width: 44px;
-  }
-}html :where(main, .recording-queue) .sgha-player.compact-player,
-html[data-theme="dark"] :where(main, .recording-queue) .sgha-player.compact-player {
-  background: linear-gradient(105deg, #582337, #78324b);
-  border: 1px solid #94546b;
-  color: #fff8ef;
-}
-
-html :where(main, .recording-queue) .sgha-player.compact-player button {
-  color: #fff8ef;
-}
-
-html :where(main, .recording-queue) .sgha-player.compact-player button.sgha-play,
-html[data-theme="dark"] :where(main, .recording-queue) .sgha-player.compact-player button.sgha-play {
-  background: #f3ca83;
-  color: #452033;
-  border-radius: 50%;
-}
-
-html :where(main, .recording-queue) .sgha-player.compact-player input[type="range"] {
-  accent-color: #f3ca83;
-}
-
-html :where(main, .recording-queue) .sgha-player.compact-player button[aria-pressed="true"] {
-  background: #f3ca83;
-  color: #452033;
-}
-
-/* Size the recording player to the space available on the page. */
-main section:has(.compact-player), .recording-queue {
-  container: recordings / inline-size;
-}
-
-/* Desktop and wide iPad: one horizontal bar. */
-html :where(main, .recording-queue) .sgha-player.compact-player {
-  display: grid;
-  grid-template-columns: repeat(5, 44px) minmax(0, 1fr) repeat(2, 44px);
-  align-items: center;
-  gap: 3px;
-}
-
-:where(main, .recording-queue) .compact-player > button {
-  justify-self: center;
-}
-
-:where(main, .recording-queue) .compact-player > .compact-timeline {
-  order: 0;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-}
-
-/* Phones and narrow iPad windows: timeline above all seven buttons. */
-@container recordings (max-width: 34rem) {
-  html :where(main, .recording-queue) .sgha-player.compact-player {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 4px 0;
-    padding: 6px;
-  }
-
-  :where(main, .recording-queue) .compact-player > .compact-timeline {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-}
-
-/* Smallest phones: keep back, play, and forward together.
-   Speed, loop, volume, and queue get their own row. */
-@container recordings (max-width: 21rem) {
-  html :where(main, .recording-queue) .sgha-player.compact-player {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  :where(main, .recording-queue) .compact-player > button {
-    grid-column: span 3;
-  }
-
-  :where(main, .recording-queue) .compact-player > button:nth-child(-n+3) {
-    grid-column: span 4;
-  }
-}
-
-/* Let long recording names wrap within the screen. */
-main section:has(.compact-player) h3 {
   overflow-wrap: anywhere;
 }
-/* Queue visibility and spacing */
-.recording-queue .compact-player[hidden],
-.recording-queue .compact-player:not([hidden]) ~ button {
-  display: none;
-}
-
-.recording-queue {
-  width: min(90%, 720px);
-  overflow-wrap: anywhere;
-}
-/* SGHA seal colors — recording players and queue */
-html .sgha-player.compact-player {
-  --seal-red: #772a16;
-  --seal-deep-red: #552014;
-  --seal-gold: #e9c991;
-  --seal-ivory: #fff5df;
-  --seal-ink: #412417;
-}
-
-html[data-theme] .sgha-player.compact-player {
-background: #a51e24;
-  border: 1px solid #a76642;
-  color: var(--seal-ivory);
-}
-
-html[data-theme] .sgha-player.compact-player button {
-  color: var(--seal-ivory);
-}
-
-html[data-theme] .sgha-player.compact-player button.sgha-play,
-html[data-theme] .sgha-player.compact-player button[aria-pressed="true"] {
-  background: var(--seal-gold);
-  color: var(--seal-ink);
-}
-
-html[data-theme] .sgha-player.compact-player input[type="range"] {
-  accent-color: var(--seal-gold);
-}
-
-html[data-theme] .sgha-player.compact-player :focus-visible {
-  outline: 2px solid var(--seal-ivory);
-  outline-offset: 2px;
-}/* Dark-mode navigation */
-html[data-theme="dark"] {
-  --sgha-nav-red: #a51e24;
-}
-
-html[data-theme="dark"] nav,
-html[data-theme="dark"] .sgha-theme-menu select {
-  background: #000;
-  color: #fff;
-}
-
-html[data-theme="dark"] nav a[aria-current="page"],
-html[data-theme="dark"] a.back {
-background: transparent;
-color: var(--sgha-nav-red);
-box-shadow: none;
-}
-
-html[data-theme="dark"] a.back {
-  padding: 4px 12px;
-  border-radius: 999px;
-}
-
 /* Praises course recording groups */
 .praises-group { max-width: 720px; }
 .praises-group > summary.row { cursor: pointer; list-style: none; }
@@ -652,6 +310,181 @@ html[data-theme="dark"] a.back {
 .praises-group[open] > summary i { transform: rotate(90deg); }
 .praises-group > a.row { padding-inline-start: 1.5rem; }
 
+button {
+  font: inherit;
+  padding: 8px;
+  background: #742d40;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+audio { max-width: 100%; }
+.recording-queue {
+  container: recordings / inline-size;
+  width: min(90%, 720px);
+  max-width: 720px;
+  margin: 12px auto 90px;
+  padding: 16px;
+  border: 1px solid currentColor;
+  border-radius: 14px;
+  overflow-wrap: anywhere;
+}
+
+.recording-queue h2 { margin-top: 0; }
+.recording-queue audio { width: 100%; }
+.recording-queue[hidden],
+.recording-queue audio[hidden],
+.recording-queue .compact-player[hidden],
+.recording-queue .compact-player:not([hidden]) ~ button { display: none; }
+
+.recording-queue > button {
+  min-height: 44px;
+  padding: 6px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+}
+
+.recording-queue > .hymn-icon {
+  display: inline-grid;
+  place-content: center;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  font: 24px/1 system-ui, sans-serif;
+}
+
+.recording-queue button:disabled { opacity: 0.5; cursor: default; }
+.hymn-icon:focus-visible { outline: 2px solid currentColor; }
+
+main section:has(.compact-player) { container: recordings / inline-size; }
+main section:has(.compact-player) h3 { overflow-wrap: anywhere; }
+main h3:has(+ audio) {
+  width: 100%;
+  max-width: 680px;
+  margin: 20px auto 4px;
+  text-align: left;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+/* Album and queue players share the same layout and palette. */
+.compact-player {
+  --track-bg: #dcaf46;
+  --track-border: #b68e54;
+  --track-accent: #a51e24;
+  --track-ink: #fff5df;
+  --button-color: #412417;
+  --focus-color: #412417;
+  display: grid;
+  grid-template-columns: repeat(5, 44px) minmax(0, 1fr) repeat(2, 44px);
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  max-width: 680px;
+  margin: 5px auto 20px;
+  padding: 3px 9px;
+  border: 1px solid var(--track-border);
+  border-radius: 8px;
+  background: var(--track-bg);
+  color: #412417;
+}
+
+.compact-player[data-color] {
+  --button-color: #fff5df;
+  --focus-color: #fff5df;
+  color: white;
+}
+
+.compact-player button {
+  display: inline-grid;
+  place-items: center;
+  justify-self: center;
+  width: 44px;
+  height: 44px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--button-color);
+  font: 600 16px/1 system-ui, sans-serif;
+}
+
+.compact-player button svg { display: block; width: 23px; height: 23px; }
+.compact-player .sgha-play { display: grid; }
+.recording-queue .sgha-play { height: 46px; }
+.compact-player .sgha-play svg { width: 15px; height: 15px; fill: currentColor; }
+.compact-player .sgha-play,
+.compact-player button[aria-pressed="true"] {
+  background: var(--track-accent);
+  color: var(--track-ink);
+}
+.compact-player button:disabled { opacity: 0.4; cursor: default; }
+.compact-timeline {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  min-width: 0;
+  gap: 7px;
+  padding-inline: 4px;
+  font: 600 12px/1 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.compact-timeline input[type="range"] {
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  margin: 0;
+  color: inherit;
+  accent-color: var(--track-accent);
+  cursor: pointer;
+}
+html[data-theme] .compact-player :focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .compact-player { justify-content: space-between; padding: 5px; }
+  .compact-player button { max-width: 44px; }
+}
+
+/* Phones and narrow iPad windows: timeline above all seven buttons. */
+@container recordings (max-width: 34rem) {
+  .compact-player {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px 0;
+    padding: 6px;
+  }
+
+  .compact-player > .compact-timeline {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}
+
+/* Smallest phones: keep back, play, and forward together.
+   Speed, loop, volume, and queue get their own row. */
+@container recordings (max-width: 21rem) {
+  .compact-player {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .compact-player > button {
+    grid-column: span 3;
+  }
+
+  .compact-player > button:nth-child(-n+3) {
+    grid-column: span 4;
+  }
+}
 
 /* Optional filename colors for recording and queue players */
 
@@ -723,63 +556,4 @@ html[data-theme="dark"] .sgha-player[data-color="teal"] {
   --track-border: #4c8180;
   --track-accent: #96dfd5;
   --track-ink: #102f30;
-}
-
-html[data-theme] .sgha-player.compact-player[data-color] {
-  background: var(--track-bg);
-  border: 1px solid var(--track-border);
-  color: #fff;
-}
-
-html[data-theme] .sgha-player.compact-player[data-color] button.sgha-play,
-html[data-theme] .sgha-player.compact-player[data-color] button[aria-pressed="true"] {
-  background: var(--track-accent);
-  color: var(--track-ink);
-}
-
-html[data-theme] .sgha-player.compact-player[data-color] input[type="range"] {
-  accent-color: var(--track-accent);
-}
-
-
-/* Home: one row per level, one column per subject. */
-main .grid.home-course-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(8px, 2vw, 20px);
-  width: 100%;
-  max-width: 640px;
-  margin-inline: auto;
-}
-
-main .grid.home-course-grid > .card {
-  width: 100%;
-  min-width: 0;
-  max-width: none;
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-/* Gold bar and red controls for untagged recordings */
-html[data-theme] .sgha-player.compact-player:not([data-color]) {
-  background: #dcaf46;
-  border-color: #b68e54;
-  color: #412417;
-}
-
-html[data-theme] .sgha-player.compact-player:not([data-color]) button {
-  color: #412417;
-}
-
-html[data-theme] .sgha-player.compact-player:not([data-color]) button.sgha-play,
-html[data-theme] .sgha-player.compact-player:not([data-color]) button[aria-pressed="true"] {
-  background: #a51e24;
-  color:#fff5df;
-}
-
-html[data-theme] .sgha-player.compact-player:not([data-color]) input[type="range"] {
-  accent-color: #a51e24;
-}
-
-html[data-theme] .sgha-player.compact-player:not([data-color]) :focus-visible {
-  outline-color: #412417;
 }

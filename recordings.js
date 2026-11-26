@@ -95,7 +95,7 @@ function addHymnPlayer(audio, color = '', queueActions = null) {
     || 'recording';
 
   const controls = document.createElement('div');
-  controls.className = 'sgha-player';
+  controls.className = 'sgha-player compact-player';
   if (color) controls.dataset.color = color;
   controls.setAttribute('role', 'group');
   controls.setAttribute('aria-label', name);
@@ -111,12 +111,16 @@ function addHymnPlayer(audio, color = '', queueActions = null) {
   seek.step = '1';
   seek.value = '0';
   seek.disabled = true;
-  seek.setAttribute('aria-label', `Seek in ${name}`);
+  seek.setAttribute('aria-label', 'Recording position');
 
-  const time = document.createElement('span');
-  time.className = 'sgha-time';
+  const timeline = document.createElement('div');
+  timeline.className = 'compact-timeline';
+  const elapsed = document.createElement('span');
+  const duration = document.createElement('span');
+  timeline.append(elapsed, seek, duration);
 
   function clock(seconds) {
+    if (!Number.isFinite(seconds)) return '–:––';
     const whole = Math.floor(seconds);
     return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
   }
@@ -132,12 +136,16 @@ function addHymnPlayer(audio, color = '', queueActions = null) {
 
   function updateTime() {
     const known = Number.isFinite(audio.duration) && audio.duration > 0;
-    const elapsed = clock(audio.currentTime || 0);
     seek.disabled = !known;
     seek.max = known ? String(audio.duration) : '0';
     seek.value = String(audio.currentTime || 0);
-    seek.setAttribute('aria-valuetext', elapsed);
-    time.textContent = `${elapsed} / ${known ? clock(audio.duration) : '–:––'}`;
+    seek.setAttribute('aria-valuetext', clock(audio.currentTime || 0));
+    updateClock();
+  }
+
+  function updateClock() {
+    elapsed.textContent = clock(audio.currentTime);
+    duration.textContent = clock(audio.duration);
   }
 
   function showNativePlayer() {
@@ -169,13 +177,12 @@ function addHymnPlayer(audio, color = '', queueActions = null) {
   }
   audio.addEventListener('error', showNativePlayer, { once: true });
 
-  controls.append(button, seek, time);
+  audio.addEventListener('emptied', updateClock);
+  const { back, forward, loop } = queueActions || transportButtons(audio);
+  const queue = queueActions?.skipTrack || addToQueueButton(audio, controls);
+  controls.append(back, button, forward, playbackSpeedButton(audio), loop,
+    timeline, muteButton(audio), queue);
   audio.after(controls);
-  if (queueActions) {
-    buildCompactBar(audio, controls, queueActions);
-  } else {
-    addRecordingActions(audio, controls);
-  }
   audio.controls = false;
   updateButton();
   updateTime();
@@ -209,7 +216,15 @@ function recordingButton(label, action) {
   setRecordingIcon(button, label);
   button.addEventListener('click', action);
   return button;
-}function addTransportButtons(audio, bar) {
+}
+
+function icon(contents) {
+  return `<svg viewBox="0 0 28 28" aria-hidden="true" fill="none"
+    stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+    stroke-linejoin="round">${contents}</svg>`;
+}
+
+function transportButtons(audio) {
   function skip(seconds) {
     if (!Number.isFinite(audio.duration)) return;
     audio.currentTime = Math.max(
@@ -237,14 +252,32 @@ function recordingButton(label, action) {
     loop.setAttribute('aria-pressed', String(audio.loop));
   });
   loop.setAttribute('aria-pressed', String(audio.loop));
-  bar.append(back, forward, loop);
+  function skipIcon(forwardDirection) {
+    const arrow = '<path d="M13.5 4.5a10 10 0 1 1-7.2 3.1"/>' +
+      '<path d="m14 1-4 3.5L14 8" fill="currentColor" stroke-width="1"/>';
+    const drawing = forwardDirection
+      ? `<g transform="translate(28 0) scale(-1 1)">${arrow}</g>`
+      : arrow;
+
+    return icon(drawing +
+      '<text x="14" y="19.2" text-anchor="middle" fill="currentColor" ' +
+      'stroke="none" font-family="system-ui,sans-serif" font-size="10" ' +
+      'font-weight="700">10</text>');
+  }
+
+  back.innerHTML = skipIcon(false);
+  forward.innerHTML = skipIcon(true);
+  back.title = 'Back 10 seconds';
+  forward.title = 'Forward 10 seconds';
+
+  loop.innerHTML = icon(
+    '<path d="M4 12a5 5 0 0 1 5-5h13m-4-4 4 4-4 4' +
+    'M24 16a5 5 0 0 1-5 5H6m4-4-4 4 4 4"/>'
+  );
+  return { back, forward, loop };
 }
 
-function addRecordingActions(audio, controls) {
-  const bar = document.createElement('div');
-  bar.className = 'recording-actions';
-  addTransportButtons(audio, bar);
-
+function addToQueueButton(audio, controls) {
   // The recording list places each title immediately before its audio element.
   const heading = audio.previousElementSibling;
   const title = heading?.matches('h3') ? heading.textContent : 'Recording';
@@ -266,8 +299,7 @@ function addRecordingActions(audio, controls) {
   });
 
   add.dataset.queueAdd = '';
-  bar.append(add);
-  buildCompactBar(audio, controls, bar);
+  return add;
 }
 
 let recordingQueueInstance;
@@ -277,7 +309,6 @@ function getRecordingQueue() {
   if (recordingQueueInstance) return recordingQueueInstance;
 
   const pending = [];
-  let queueGeneration = 0;
   let current = null;
 
   const panel = document.createElement('section');
@@ -294,15 +325,12 @@ function getRecordingQueue() {
   player.preload = 'metadata';
   player.hidden = true;
 
-  const actions = document.createElement('div');
-  actions.className = 'recording-actions';
-  addTransportButtons(player, actions);
+  const actions = transportButtons(player);
 
   const list = document.createElement('ol');
   const next = recordingButton('Play queue', playNext);
-  const loopButton = actions.querySelector('[aria-pressed]');
   const skipTrack = recordingButton('Next in queue', playNext);
-  actions.append(skipTrack);
+  actions.skipTrack = skipTrack;
   player.setAttribute('aria-label', 'queue recording');
   const endButton = document.createElement('button');
   endButton.type = 'button';
@@ -349,7 +377,6 @@ function getRecordingQueue() {
       setRecordingIcon(button, 'Add to queue');
       button.disabled = false;
     }
-    queueGeneration++;
     releaseCurrent();
     for (const track of pending) {
       if (track.ownsURL) URL.revokeObjectURL(track.url);
@@ -362,7 +389,7 @@ function getRecordingQueue() {
     releaseCurrent();
     current = pending.shift() || null;
     player.loop = false;
-    loopButton.setAttribute('aria-pressed', 'false');
+    actions.loop.setAttribute('aria-pressed', 'false');
     render();
     if (!current) return;
 
@@ -392,7 +419,7 @@ function getRecordingQueue() {
   recordingQueueInstance = {
     async add(title, source, color = '') {
       if (!source) throw new Error('Missing recording source');
-      const generation = queueGeneration;
+      const generation = queueButtonGeneration;
       const track = { title, url: source, color, ownsURL: false };
 
       // Local uploads need their own URL so leaving the album doesn't
@@ -401,7 +428,7 @@ function getRecordingQueue() {
         const response = await fetch(source);
         if (!response.ok) throw new Error('Recording unavailable');
         const blob = await response.blob();
-        if (generation !== queueGeneration) return;
+        if (generation !== queueButtonGeneration) return;
         track.url = URL.createObjectURL(blob);
         track.ownsURL = true;
       }
@@ -416,46 +443,7 @@ function getRecordingQueue() {
 }
 
 
-function buildCompactBar(audio, controls, actions) {
-  const play = controls.querySelector('.sgha-play');
-  const seek = controls.querySelector('input[type="range"]');
-  const [back, forward, loop, queue] = actions.querySelectorAll('button');
-
-  // Keep the original controls usable if the recording template changes.
-  if (!play || !seek || !back || !forward || !loop || !queue) {
-    controls.after(actions);
-    return;
-  }
-
-  function icon(contents) {
-    return `<svg viewBox="0 0 28 28" aria-hidden="true" fill="none"
-      stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-      stroke-linejoin="round">${contents}</svg>`;
-  }
-
-  function skipIcon(forwardDirection) {
-    const arrow = '<path d="M13.5 4.5a10 10 0 1 1-7.2 3.1"/>' +
-      '<path d="m14 1-4 3.5L14 8" fill="currentColor" stroke-width="1"/>';
-    const drawing = forwardDirection
-      ? `<g transform="translate(28 0) scale(-1 1)">${arrow}</g>`
-      : arrow;
-
-    return icon(drawing +
-      '<text x="14" y="19.2" text-anchor="middle" fill="currentColor" ' +
-      'stroke="none" font-family="system-ui,sans-serif" font-size="10" ' +
-      'font-weight="700">10</text>');
-  }
-
-  back.innerHTML = skipIcon(false);
-  forward.innerHTML = skipIcon(true);
-  back.title = 'Back 10 seconds';
-  forward.title = 'Forward 10 seconds';
-
-  loop.innerHTML = icon(
-    '<path d="M4 12a5 5 0 0 1 5-5h13m-4-4 4 4-4 4' +
-    'M24 16a5 5 0 0 1-5 5H6m4-4-4 4 4 4"/>'
-  );
-
+function playbackSpeedButton(audio) {
   const rates = [0.5, 0.75, 1, 1.25, 1.5, 2];
   const speed = document.createElement('button');
   speed.type = 'button';
@@ -474,6 +462,10 @@ function buildCompactBar(audio, controls, actions) {
   audio.addEventListener('ratechange', updateSpeed);
   updateSpeed();
 
+  return speed;
+}
+
+function muteButton(audio) {
   const mute = document.createElement('button');
   mute.type = 'button';
 
@@ -490,30 +482,5 @@ function buildCompactBar(audio, controls, actions) {
   mute.addEventListener('click', () => { audio.muted = !audio.muted; });
   audio.addEventListener('volumechange', updateMute);
   updateMute();
-
-  const timeline = document.createElement('div');
-  timeline.className = 'compact-timeline';
-  const elapsed = document.createElement('span');
-  const duration = document.createElement('span');
-  seek.setAttribute('aria-label', 'Recording position');
-  timeline.append(elapsed, seek, duration);
-
-  function clock(seconds) {
-    if (!Number.isFinite(seconds)) return '–:––';
-    const whole = Math.floor(seconds);
-    return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
-  }
-
-  function updateClock() {
-    elapsed.textContent = clock(audio.currentTime);
-    duration.textContent = clock(audio.duration);
-  }
-
-  for (const event of ['timeupdate', 'loadedmetadata', 'durationchange', 'emptied']) {
-    audio.addEventListener(event, updateClock);
-  }
-  updateClock();
-
-  controls.classList.add('compact-player');
-  controls.replaceChildren(back, play, forward, speed, loop, timeline, mute, queue);
+  return mute;
 }
