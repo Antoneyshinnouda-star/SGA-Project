@@ -620,3 +620,401 @@ html[data-theme="dark"] .sgha-player[data-color="teal"] {
   --track-accent: #96dfd5;
   --track-ink: #102f30;
 }
+
+/* ==========================================================================
+   Modern Micro-Interactions, Hover Zoom, Click Feedback & Entrance Polish
+   ========================================================================== */
+
+:root {
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-hover-sm: 0 4px 12px rgb(36 33 41 / 10%);
+  --shadow-hover-md: 0 10px 24px rgb(36 33 41 / 14%);
+  --shadow-player-hover: 0 6px 18px rgb(86 57 30 / 14%);
+  --pulse-ring: rgb(120 45 68 / 28%);
+}
+
+html[data-theme="dark"] {
+  --shadow-hover-sm: 0 4px 14px rgb(0 0 0 / 45%);
+  --shadow-hover-md: 0 12px 28px rgb(0 0 0 / 55%);
+  --shadow-player-hover: 0 8px 22px rgb(0 0 0 / 50%);
+  --pulse-ring: rgb(241 166 173 / 32%);
+}
+
+body {
+  overflow-x: clip;
+}
+
+/* Smooth theme switch transition (toggled briefly via JS) */
+html.sgha-theme-transition,
+html.sgha-theme-transition body,
+html.sgha-theme-transition header,
+html.sgha-theme-transition nav,
+html.sgha-theme-transition .compact-player,
+html.sgha-theme-transition .row,
+html.sgha-theme-transition select {
+  transition:
+    background-color 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+/* --- 1. Base Smooth Transitions & Hover Zoom (scale 1.03 - 1.05) --- */
+
+.brand,
+nav a,
+.back,
+.card,
+.row,
+button,
+select,
+.compact-player,
+.compact-player button,
+.recording-queue > button {
+  transition:
+    transform 0.2s var(--ease-spring),
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+  will-change: transform;
+}
+
+.brand img,
+.cover,
+.cover img,
+.row i {
+  transition:
+    transform 0.24s var(--ease-spring),
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+/* Header brand & nav tabs */
+.brand:hover {
+  transform: scale(1.04);
+}
+
+.brand:hover img {
+  box-shadow: var(--shadow-hover-sm);
+}
+
+nav a:hover {
+  transform: scale(1.04);
+  box-shadow: var(--shadow-hover-sm);
+}
+
+nav a[aria-current]:hover {
+  transform: scale(1.04);
+}
+
+/* Back link */
+.back {
+  padding: 4px 10px;
+  margin-left: -10px;
+  border-radius: 999px;
+}
+
+.back:hover,
+html[data-theme="dark"] .back:hover {
+  transform: scale(1.04);
+  background: var(--subsection-bg);
+  text-decoration: none;
+}
+
+/* Theme select dropdown */
+select:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-hover-sm);
+}
+
+/* Album & course cards */
+.card {
+  border-radius: 12px;
+  transform-origin: center center;
+}
+
+.card:hover {
+  transform: scale(1.04);
+}
+
+.card:hover .cover {
+  box-shadow: var(--shadow-hover-md);
+  filter: brightness(1.06);
+}
+
+.card:hover .cover img {
+  transform: scale(1.03);
+}
+
+/* Rows & subsection pills */
+.row {
+  transform-origin: center center;
+}
+
+.row:hover {
+  transform: scale(1.03);
+}
+
+.row:hover i {
+  transform: translateX(3px);
+}
+
+.praises-group[open] > summary.row:hover i {
+  transform: rotate(90deg) translateX(2px);
+}
+
+:is(.praises-group > .row, .row[href$="/lectures"], .row[href$="/sources"]):hover {
+  transform: scale(1.035);
+  box-shadow: var(--shadow-hover-sm);
+}
+
+/* General buttons & recording queue buttons */
+button:not(:disabled):hover {
+  transform: scale(1.04);
+  box-shadow: var(--shadow-hover-sm);
+}
+
+.recording-queue > button:not(:disabled):hover {
+  transform: scale(1.04);
+  background: var(--subsection-bg);
+  box-shadow: var(--shadow-hover-sm);
+}
+
+/* Audio player container & controls */
+.compact-player {
+  will-change: transform, box-shadow;
+}
+
+.compact-player:hover {
+  box-shadow: var(--shadow-player-hover);
+}
+
+.compact-player button {
+  position: relative;
+}
+
+.compact-player button:not(:disabled):hover {
+  transform: scale(1.05);
+  background: rgb(128 128 128 / 14%);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+.compact-player .sgha-play:not(:disabled):hover,
+.compact-player button[aria-pressed="true"]:not(:disabled):hover {
+  transform: scale(1.05);
+  background: var(--track-accent);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 22%);
+}
+
+.compact-timeline input[type="range"] {
+  transition: transform 0.2s var(--ease-spring), opacity 0.2s ease;
+}
+
+.compact-timeline input[type="range"]:not(:disabled):hover {
+  transform: scaleY(1.12);
+}
+
+/* --- 2. Tactile Click / Active Press & Pulse Feedback --- */
+
+.brand:active,
+nav a:active,
+.back:active,
+.card:active,
+.row:active,
+button:not(:disabled):active,
+select:active,
+.compact-player button:not(:disabled):active,
+.recording-queue > button:not(:disabled):active {
+  transform: scale(0.96);
+  transition-duration: 0.09s;
+}
+
+/* Expanding GPU-accelerated pulse ring on click (triggered via JS class) */
+button,
+.row,
+nav a,
+.back {
+  position: relative;
+}
+
+.sgha-click-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--pulse-ring);
+  pointer-events: none;
+  opacity: 0;
+  animation: sgha-pulse-ring 0.42s var(--ease-spring) forwards;
+}
+
+.compact-player button.sgha-click-pulse::after {
+  border-color: currentColor;
+}
+
+@keyframes sgha-pulse-ring {
+  0% {
+    opacity: 0.65;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+}
+
+/* Subtle flash feedback when speed or queue state updates */
+.sgha-pop {
+  animation: sgha-pop-bounce 0.28s var(--ease-spring);
+}
+
+@keyframes sgha-pop-bounce {
+  0% {
+    transform: scale(0.92);
+  }
+  55% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* --- 3. Active / Playing Audio Player State Polish --- */
+
+.compact-player.is-playing {
+  box-shadow:
+    0 0 0 2px var(--track-accent),
+    var(--shadow-player-hover);
+}
+
+.compact-player .sgha-play.is-playing::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--track-accent);
+  pointer-events: none;
+  animation: sgha-playing-pulse 1.8s ease-out infinite;
+}
+
+@keyframes sgha-playing-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+/* --- 4. Entrance & Dropdown Animations (GPU-accelerated transform & opacity) --- */
+
+@keyframes sgha-fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sgha-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* View heading & content entrance */
+main.sgha-view-enter > h1,
+main.sgha-view-enter > h2,
+main.sgha-view-enter > p,
+main.sgha-view-enter > .back,
+main.sgha-view-enter > .row,
+main.sgha-view-enter > .praises-group {
+  animation: sgha-fade-slide-up 0.3s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 28ms);
+}
+
+/* Staggered card grid entrance */
+main .grid > .card.sgha-enter {
+  animation: sgha-fade-slide-up 0.34s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 32ms);
+}
+
+/* Praises / Doxologies native <details> dropdown open animation */
+.praises-group[open] > a.row {
+  animation: sgha-dropdown-in 0.26s var(--ease-spring) backwards;
+}
+
+.praises-group[open] > a.row:nth-of-type(2) {
+  animation-delay: 45ms;
+}
+
+/* Track list items entrance when recordings load */
+.sgha-track-enter {
+  animation: sgha-fade-slide-up 0.32s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 30ms);
+}
+
+/* Queue panel & queued track list entrance */
+.recording-queue.sgha-panel-enter {
+  animation: sgha-fade-slide-up 0.32s var(--ease-spring) backwards;
+}
+
+.recording-queue ol li {
+  animation: sgha-fade-slide-up 0.24s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger, 0) * 25ms);
+}
+
+/* --- 5. Accessibility: Respect prefers-reduced-motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .brand:hover,
+  nav a:hover,
+  .back:hover,
+  .card:hover,
+  .card:hover .cover img,
+  .row:hover,
+  .row:hover i,
+  select:hover,
+  button:not(:disabled):hover,
+  .compact-player button:not(:disabled):hover,
+  .compact-timeline input[type="range"]:not(:disabled):hover,
+  .brand:active,
+  nav a:active,
+  .back:active,
+  .card:active,
+  .row:active,
+  button:not(:disabled):active,
+  select:active,
+  .compact-player button:not(:disabled):active {
+    transform: none !important;
+  }
+
+  .praises-group[open] > summary i {
+    transform: rotate(90deg) !important;
+  }
+}
