@@ -761,7 +761,7 @@ main .grid.home-course-grid > .card {
 }
 /* Gold bar and red controls for untagged recordings */
 html[data-theme] .sgha-player.compact-player:not([data-color]) {
-  background: #e9c991;
+  background: #dcaf46;
   border-color: #b68e54;
   color: #412417;
 }
@@ -773,7 +773,7 @@ html[data-theme] .sgha-player.compact-player:not([data-color]) button {
 html[data-theme] .sgha-player.compact-player:not([data-color]) button.sgha-play,
 html[data-theme] .sgha-player.compact-player:not([data-color]) button[aria-pressed="true"] {
   background: #a51e24;
-  color: #fff5df;
+  color:#fff5df;
 }
 
 html[data-theme] .sgha-player.compact-player:not([data-color]) input[type="range"] {
