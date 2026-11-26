@@ -69,13 +69,20 @@ async function recordings(course, offering, section, base) {
       for (const file of items) {
         if (!file.id || !/\.(mp3|m4a|wav)$/i.test(file.name)) continue;
         const { title, color } = parseRecordingFilename(file.name);
-        el('h3', title, list);
+        const heading = el('h3', title, list);
         const player = el('audio', '', list);
         player.controls = true;
         player.preload = 'metadata';
         player.setAttribute('aria-label', title);
         player.src = storage + '/public/' + SGHA_BUCKET + '/' + folder + '/' + encodeURIComponent(file.name);
-        addHymnPlayer(player, color);
+        const controls = addHymnPlayer(player, color);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          const stagger = String(Math.min(seen, 10));
+          heading.style.setProperty('--stagger', stagger);
+          controls.style.setProperty('--stagger', stagger);
+          heading.classList.add('sgha-track-enter');
+          controls.classList.add('sgha-track-enter');
+        }
         seen++;
       }
 
@@ -127,6 +134,8 @@ function addHymnPlayer(audio, color = '', queueActions = null) {
 
   function updateButton() {
     const playing = !audio.paused && !audio.ended;
+    controls.classList.toggle('is-playing', playing);
+    button.classList.toggle('is-playing', playing);
     button.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${name}`);
     button.title = playing ? 'Pause' : 'Play';
     button.innerHTML = playing
@@ -277,6 +286,16 @@ function transportButtons(audio) {
   return { back, forward, loop };
 }
 
+function triggerPopFeedback(element) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  element.classList.remove('sgha-pop');
+  void element.offsetWidth;
+  element.classList.add('sgha-pop');
+  element.addEventListener('animationend', () => {
+    element.classList.remove('sgha-pop');
+  }, { once: true });
+}
+
 function addToQueueButton(audio, controls) {
   // The recording list places each title immediately before its audio element.
   const heading = audio.previousElementSibling;
@@ -289,6 +308,7 @@ function addToQueueButton(audio, controls) {
       await getRecordingQueue().add(title, audio.currentSrc || audio.src, controls.dataset.color);
       if (generation !== queueButtonGeneration) return;
       setRecordingIcon(add, 'Added ✓');
+      triggerPopFeedback(add);
     } catch {
       if (generation === queueButtonGeneration) {
         setRecordingIcon(add, 'Couldn’t add · Retry');
@@ -343,12 +363,14 @@ function getRecordingQueue() {
   document.body.append(panel);
 
   function render() {
+    const wasHidden = panel.hidden;
     list.replaceChildren();
-    for (const track of pending) {
+    pending.forEach((track, index) => {
       const row = document.createElement('li');
       row.textContent = track.title;
+      row.style.setProperty('--stagger', String(Math.min(index, 10)));
       list.append(row);
-    }
+    });
 
     player.hidden = !current;
     queueBar.hidden = !current;
@@ -361,6 +383,11 @@ function getRecordingQueue() {
       ? `Current recording: ${current.title}`
       : 'Choose Play queue to begin.';
     panel.hidden = !current && pending.length === 0;
+    if (wasHidden && !panel.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      panel.classList.remove('sgha-panel-enter');
+      void panel.offsetWidth;
+      panel.classList.add('sgha-panel-enter');
+    }
   }
 
   function releaseCurrent() {
@@ -458,6 +485,7 @@ function playbackSpeedButton(audio) {
   speed.addEventListener('click', () => {
     const index = rates.indexOf(audio.playbackRate);
     audio.playbackRate = rates[(index + 1) % rates.length];
+    triggerPopFeedback(speed);
   });
   audio.addEventListener('ratechange', updateSpeed);
   updateSpeed();
