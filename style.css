@@ -759,3 +759,27 @@ main .grid.home-course-grid > .card {
   text-align: center;
   overflow-wrap: anywhere;
 }
+/* Gold bar and red controls for untagged recordings */
+html[data-theme] .sgha-player.compact-player:not([data-color]) {
+  background: #e9c991;
+  border-color: #b68e54;
+  color: #412417;
+}
+
+html[data-theme] .sgha-player.compact-player:not([data-color]) button {
+  color: #412417;
+}
+
+html[data-theme] .sgha-player.compact-player:not([data-color]) button.sgha-play,
+html[data-theme] .sgha-player.compact-player:not([data-color]) button[aria-pressed="true"] {
+  background: #a51e24;
+  color: #fff5df;
+}
+
+html[data-theme] .sgha-player.compact-player:not([data-color]) input[type="range"] {
+  accent-color: #a51e24;
+}
+
+html[data-theme] .sgha-player.compact-player:not([data-color]) :focus-visible {
+  outline-color: #412417;
+}
