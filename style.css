@@ -116,19 +116,50 @@ p,.sub,small {
 }
 
 /* Center each subsection label under its page title, reserving space for the arrow. */
+/* Album and course subsection pills, including native disclosure buttons. */
+:root {
+  --subsection-bg: #f4f3f3;
+  --subsection-active: white;
+  --subsection-accent: #782d44;
+}
+html[data-theme="dark"] {
+  --subsection-bg: #252226;
+  --subsection-active: #373136;
+  --subsection-accent: #f1a6ad;
+}
 .row:is([href$="/lectures"], [href$="/sources"]),
 .praises-group > .row {
   position: relative;
   justify-content: center;
+  width: min(100%, 24rem);
+  min-height: 44px;
   margin-inline: auto;
   padding-inline: 2rem;
+  margin: 8px auto;
+  padding: 9px 2.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--subsection-bg);
+  font-size: 15px;
   text-align: center;
 }
 
+.praises-group > a.row { width: min(92%, 21rem); }
+.praises-group[open] > summary.row,
+:is(.praises-group > .row, .row[href$="/lectures"], .row[href$="/sources"]):is(:hover, :focus-visible) {
+  background: var(--subsection-active);
+  color: var(--subsection-accent);
+  box-shadow: 0 1px 4px #0002;
+  text-decoration: none;
+}
+.praises-group[open] > summary.row { font-weight: 650; }
 .row:is([href$="/lectures"], [href$="/sources"]) > i,
 .praises-group > .row > i {
   position: absolute;
   inset-inline-end: 0;
+  inset-inline-end: 1rem;
+  color: inherit;
+  font-style: normal;
 }
 
 .row:hover,.back:hover {
